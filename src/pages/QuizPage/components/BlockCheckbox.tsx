@@ -7,8 +7,12 @@ import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 
-// TODO: add types
-export const BlockCheckbox = ({ lock, submitCallback }: any) => {
+export interface BlockCheckboxProps {
+  lock: boolean;
+  submitCallback: () => void;
+}
+
+export const BlockCheckbox = ({ lock, submitCallback }: BlockCheckboxProps) => {
   return (
     <Box sx={{ maxWidth: 500 }}>
       <Card variant="outlined">
@@ -20,9 +24,11 @@ export const BlockCheckbox = ({ lock, submitCallback }: any) => {
           </FormGroup>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={submitCallback}>Принять</Button>
+          <Button size="small" onClick={submitCallback}>
+            Принять
+          </Button>
         </CardActions>
       </Card>
     </Box>
   );
-}
+};

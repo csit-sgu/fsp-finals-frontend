@@ -9,8 +9,12 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 
-// TODO: add types
-export const BlockRadio = ({ lock, submitCallback }: any) => {
+export interface BlockRadioProps {
+  lock: boolean;
+  submitCallback: () => void;
+}
+
+export const BlockRadio = ({ lock, submitCallback }: BlockRadioProps) => {
   return (
     <Box sx={{ maxWidth: 500 }}>
       <Card variant="outlined">
@@ -22,14 +26,16 @@ export const BlockRadio = ({ lock, submitCallback }: any) => {
               defaultValue="female"
               name="radio-buttons-group"
             >
-              <FormControlLabel value="female" control={<Radio disabled={lock}/>} label="Female" />
-              <FormControlLabel value="male" control={<Radio disabled={lock}/>} label="Male" />
-              <FormControlLabel value="other" control={<Radio disabled={lock}/>} label="Other" />
+              <FormControlLabel value="female" control={<Radio disabled={lock} />} label="Female" />
+              <FormControlLabel value="male" control={<Radio disabled={lock} />} label="Male" />
+              <FormControlLabel value="other" control={<Radio disabled={lock} />} label="Other" />
             </RadioGroup>
           </FormControl>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={submitCallback}>Принять</Button>
+          <Button size="small" onClick={submitCallback}>
+            Принять
+          </Button>
         </CardActions>
       </Card>
     </Box>
