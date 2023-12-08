@@ -6,6 +6,7 @@ import {
   UnbranchedAnswerChoice,
 } from '../CreatingQuizModels';
 import { NextBlockChooser } from './NextBlockChooser';
+import { useState } from 'react';
 
 export const FreeAnswerPayloadEditor = ({
   value,
@@ -18,9 +19,11 @@ export const FreeAnswerPayloadEditor = ({
   createBlockCallback: (blockId: QuizBlockId) => void;
   blocks: CreatingQuizBlock[];
 }) => {
+  const [lastId, setLastId] = useState(0);
+
   const addEmptyOption = () => {
     const emptyOption: UnbranchedAnswerChoice = {
-      id: (value.payload?.options || []).length,
+      id: lastId,
       text: '',
       score: 0,
     };
@@ -31,6 +34,7 @@ export const FreeAnswerPayloadEditor = ({
         options: [...((value.payload as BlockFreeAnswerPayload)?.options || []), emptyOption],
       } as BlockFreeAnswerPayload,
     });
+    setLastId((i) => i + 1);
   };
 
   const chooseBlock = (blockId: QuizBlockId) => {
@@ -46,6 +50,16 @@ export const FreeAnswerPayloadEditor = ({
       payload: {
         ...value.payload,
         options: value.payload?.options.map((opt) => (opt.id === newOption.id ? newOption : opt)),
+      } as BlockFreeAnswerPayload,
+    });
+  };
+
+  const removeOption = (optionId: number) => {
+    onChange({
+      ...value,
+      payload: {
+        ...value.payload,
+        options: value.payload?.options.filter((opt) => opt.id !== optionId),
       } as BlockFreeAnswerPayload,
     });
   };
@@ -96,6 +110,14 @@ export const FreeAnswerPayloadEditor = ({
                     />
                   </Grid>
                 </Grid>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{ marginTop: '10px' }}
+                  onClick={() => removeOption(opt.id)}
+                >
+                  Удалить варинат ответа
+                </Button>
               </CardContent>
             </Card>
           ))}

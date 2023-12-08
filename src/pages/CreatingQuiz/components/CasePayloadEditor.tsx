@@ -1,6 +1,16 @@
-import { Box, Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { NextBlockChooser } from './NextBlockChooser';
 import { BranchedAnswerChoice, CreatingQuizBlock, QuizBlockId } from '../CreatingQuizModels';
+import { useState } from 'react';
 
 export const CasePayloadEditor = ({
   value,
@@ -13,9 +23,11 @@ export const CasePayloadEditor = ({
   createBlockCallback: (blockId: QuizBlockId) => void;
   blocks: CreatingQuizBlock[];
 }) => {
+  const [lastId, setLastId] = useState(0);
+
   const addEmptyOption = () => {
     const emptyOption: BranchedAnswerChoice = {
-      id: (value.payload?.options || []).length,
+      id: lastId,
       text: '',
       score: 0,
       nextBlock: '',
@@ -25,6 +37,19 @@ export const CasePayloadEditor = ({
       payload: {
         ...value.payload,
         options: [...((value.payload?.options as BranchedAnswerChoice[]) || []), emptyOption],
+      },
+    });
+    setLastId((i) => i + 1);
+  };
+
+  const removeOption = (optionId: number) => {
+    onChange({
+      ...value,
+      payload: {
+        ...value.payload,
+        options: value.payload?.options.filter(
+          (opt) => opt.id !== optionId,
+        ) as BranchedAnswerChoice[],
       },
     });
   };
@@ -87,6 +112,14 @@ export const CasePayloadEditor = ({
                 />
               </Grid>
             </Grid>
+            <Button
+              variant="outlined"
+              color="error"
+              sx={{ marginTop: '10px' }}
+              onClick={() => removeOption(opt.id)}
+            >
+              Удалить варинат ответа
+            </Button>
           </CardContent>
         </Card>
       ))}
