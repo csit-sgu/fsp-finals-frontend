@@ -1,42 +1,49 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { QuizBlock, QuizBlockId, QuizBlockType } from './QuizModels';
+import { Block, QuizBackend, BlockId, QuizId, blockTypeFromString } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
 import { Bar } from '../Bar';
+import axios from 'axios';
 import * as React from 'react';
 
 const quizTheme = 'Финансовые нарушения, Защита персональных данных';
 const quizDescritption = 'Description...';
 
-const exampleBlock = (id: QuizBlockId) => ({
-  id,
-  problem: 'Aboba',
-  blockType: QuizBlockType.MultipleChoice,
-  payload: {
-    options: [
-      {
-        text: 'Aboba 1',
-        score: 1.0,
-      },
-      {
-        text: 'Aboba 2',
-        score: 0.7,
-      },
-      {
-        text: 'Aboba 3',
-        score: 0,
-      },
-    ],
-    nextBlock: 2,
-  },
-});
+const getQuiz = async (id: QuizId) => {
+  // TODO: add backend url
+  return axios.get(`http://localhost:8000/quiz/${id}`);
+};
+
+const getBlock = async (id: BlockId) => {
+  // TODO: add backend url
+  return axios.get(`http://localhost:8000/block/${id}`);
+};
 
 export const QuizPage = () => {
-  const [blocks, setBlocks] = useState<QuizBlock[]>([]);
+  const [blocks, setBlocks] = useState<Block[]>([]);
 
-  const addBlock = () => {
-    setBlocks((b) => [...b, exampleBlock(b.length)]);
+  const getNextBlock = (currentId: BlockId) => {
+    console.log('CURRENTID', currentId);
+    if (currentId !== null) {
+      getBlock(currentId).then((res) => {
+        const block_resp = res.data;
+        // TODO: check for null
+        block_resp.block_type = blockTypeFromString(block_resp.block_type);
+        const block: Block = block_resp;
+        console.log(block);
+        setBlocks([...blocks, block]);
+      });
+    } else {
+      console.log('QUIZ ENDED');
+    }
+  };
+
+  const startQuiz = (id: QuizId) => {
+    getQuiz(id).then((res) => {
+      const quiz: QuizBackend = res.data;
+      getNextBlock(quiz.entry_id);
+    });
   };
 
   return (
@@ -44,14 +51,14 @@ export const QuizPage = () => {
       <Bar>
         <Container maxWidth="sm">
           <QuizAboutCard
-            id="1"
+            id={1}
             name="Aboba"
             theme={quizTheme}
             description={quizDescritption}
-            startCallback={addBlock}
+            startCallback={startQuiz}
           />
-          {blocks.map((b) => (
-            <QuizBlockCard block={b} onSubmit={addBlock} key={b.id} />
+          {blocks.map((b, idx) => (
+            <QuizBlockCard block={b} onSubmit={getNextBlock} key={idx} />
           ))}
         </Container>
       </Bar>

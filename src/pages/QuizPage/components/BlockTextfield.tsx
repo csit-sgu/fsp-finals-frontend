@@ -1,9 +1,4 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
+import { Button, CardActions, CardContent, Card, TextField, Box } from '@mui/material';
 
 export interface BlockTextfieldProps {
   lock: boolean;

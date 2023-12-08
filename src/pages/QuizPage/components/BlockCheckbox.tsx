@@ -1,11 +1,13 @@
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import FormGroup from '@mui/material/FormGroup';
-import Checkbox from '@mui/material/Checkbox';
+import {
+  Checkbox,
+  FormGroup,
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  Box,
+  FormControlLabel,
+} from '@mui/material';
 
 export interface BlockCheckboxProps {
   lock: boolean;

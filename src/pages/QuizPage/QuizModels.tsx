@@ -1,53 +1,69 @@
 export type QuizId = string | number;
-export type QuizBlockId = string | number;
+export type BlockId = string | number | null;
+export type AuthorId = string | number;
+
+export interface QuizBackend {
+  author_id: AuthorId;
+  category: string;
+  description: string;
+  entry_id: BlockId;
+  title: string;
+}
+
+export interface BasicOption {
+  text: string;
+  score: number;
+}
+
+export interface BranchedOption {
+  text: string;
+  score: number;
+  next_block: BlockId;
+}
+
+export interface FreeAnswerPayload {
+  options: BasicOption[];
+  next_block: BlockId;
+}
+
+export interface MultichoicePayload {
+  options: BasicOption[];
+  next_block: BlockId;
+}
+
+export interface CasePayload {
+  options: BranchedOption[];
+}
+
+export interface Block {
+  id: BlockId;
+  block_type: BlockType;
+  problem: string;
+  payload: FreeAnswerPayload | MultichoicePayload | CasePayload;
+}
 
 export interface Quiz {
   id: QuizId;
   name: string;
   theme: string;
   description: string;
-  blocks: QuizBlock[];
+  blocks: Block[];
 }
 
-export interface QuizBlock {
-  id: QuizBlockId;
-  problem: string;
-  blockType: QuizBlockType;
-  payload: BlockMultipleChoicePayload | BlockFreeAnswerPayload | BlockCasePayload;
-}
-
-export enum QuizBlockType {
+export enum BlockType {
   MultipleChoice,
   FreeAnswer,
   Case,
 }
 
-export interface BlockMultipleChoicePayload {
-  options: UnbranchedAnswerChoice[];
-  nextBlock: QuizBlockId;
-}
-
-export interface BlockFreeAnswerPayload {
-  options: PossibleFreeAnswer[];
-  nextBlock: QuizBlockId;
-}
-
-export interface BlockCasePayload {
-  options: BranchedAnswerChoice[];
-}
-
-export interface UnbranchedAnswerChoice {
-  text: string;
-  score: number;
-}
-
-export interface BranchedAnswerChoice {
-  text: string;
-  score: number;
-  nextBlock: QuizBlockId;
-}
-
-export interface PossibleFreeAnswer {
-  text: string;
-  score: number;
-}
+export const blockTypeFromString = (blockName: string): BlockType | null => {
+  switch (blockName) {
+    case 'multiple_choice':
+      return BlockType.MultipleChoice;
+    case 'free_answer':
+      return BlockType.FreeAnswer;
+    case 'case':
+      return BlockType.Case;
+  }
+  return null;
+};

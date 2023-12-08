@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { QuizBlock, QuizBlockId, QuizBlockType } from '../QuizModels';
+import { Block, BlockId, BlockType } from '../QuizModels';
 import { BlockCheckbox } from './BlockCheckbox';
 import { BlockDescription } from './BlockDescription';
 import { BlockRadio } from './BlockRadio';
@@ -7,8 +7,8 @@ import { BlockTextfield } from './BlockTextfield';
 import { useState } from 'react';
 
 export interface QuizBlockCardProps {
-  block: QuizBlock;
-  onSubmit: (blockId: QuizBlockId) => void;
+  block: Block;
+  onSubmit: (blockId: BlockId) => void;
 }
 
 export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
@@ -21,14 +21,14 @@ export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
     onSubmit(block.id);
   };
 
-  switch (block.blockType) {
-    case QuizBlockType.Case:
+  switch (block.block_type) {
+    case BlockType.Case:
       blockCard = <BlockRadio lock={lock} submitCallback={onClick} />;
       break;
-    case QuizBlockType.MultipleChoice:
+    case BlockType.MultipleChoice:
       blockCard = <BlockCheckbox lock={lock} submitCallback={onClick} />;
       break;
-    case QuizBlockType.FreeAnswer:
+    case BlockType.FreeAnswer:
       blockCard = <BlockTextfield lock={lock} submitCallback={onClick} />;
       break;
   }
