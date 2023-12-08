@@ -18,9 +18,9 @@ export const BlockCheckbox = ({ lock, submitCallback }: BlockCheckboxProps) => {
       <Card variant="outlined">
         <CardContent>
           <FormGroup>
-            <FormControlLabel disabled={lock} control={<Checkbox />} label="Label" />
-            <FormControlLabel disabled={lock} control={<Checkbox />} label="Required" />
-            <FormControlLabel disabled={lock} control={<Checkbox />} label="Disabled" />
+            <FormControlLabel disabled={lock} control={<Checkbox />} label="First" />
+            <FormControlLabel disabled={lock} control={<Checkbox />} label="Second" />
+            <FormControlLabel disabled={lock} control={<Checkbox />} label="Third" />
           </FormGroup>
         </CardContent>
         <CardActions>

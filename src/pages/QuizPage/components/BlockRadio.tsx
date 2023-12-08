@@ -26,9 +26,9 @@ export const BlockRadio = ({ lock, submitCallback }: BlockRadioProps) => {
               defaultValue="female"
               name="radio-buttons-group"
             >
-              <FormControlLabel value="female" control={<Radio disabled={lock} />} label="Female" />
-              <FormControlLabel value="male" control={<Radio disabled={lock} />} label="Male" />
-              <FormControlLabel value="other" control={<Radio disabled={lock} />} label="Other" />
+              <FormControlLabel value="female" control={<Radio disabled={lock} />} label="First" />
+              <FormControlLabel value="male" control={<Radio disabled={lock} />} label="Second" />
+              <FormControlLabel value="other" control={<Radio disabled={lock} />} label="Third" />
             </RadioGroup>
           </FormControl>
         </CardContent>

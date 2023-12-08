@@ -49,7 +49,7 @@ const QuizCardHor = () => {
         </Grid>
         <Grid item xs="auto">
           <CardActions>
-            <Button variant="contained" size="large">
+            <Button variant="contained" size="large" href="/quizzes/1">
               Открыть
             </Button>
           </CardActions>

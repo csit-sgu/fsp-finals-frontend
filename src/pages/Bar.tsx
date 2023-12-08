@@ -10,6 +10,49 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Link from '@mui/material/Link'
+
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 const pages = ['Продукты', 'Блог'];
 const settings = ['Профиль', 'Выход'];
@@ -33,7 +76,8 @@ export const Bar = ({ children }: BarProps) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    // console.log(event.)
     setAnchorElUser(null);
   };
 
@@ -49,7 +93,7 @@ export const Bar = ({ children }: BarProps) => {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: 'none', md: 'flex' },
+                display: { xs: 'flex', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
@@ -59,60 +103,7 @@ export const Bar = ({ children }: BarProps) => {
             >
               ИМЯ
             </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              ></IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
                   key={page}
@@ -123,6 +114,14 @@ export const Bar = ({ children }: BarProps) => {
                 </Button>
               ))}
             </Box>
+
+            <Search>
+              {/* <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper> */}
+              <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+            </Search>
+            <Box sx={{ flexGrow: 1 }} />
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -146,11 +145,17 @@ export const Bar = ({ children }: BarProps) => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
+                {/* {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
-                ))}
+                ))} */}
+                <MenuItem>
+                  <Link textAlign="center" href="/profile">Профиль</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Typography textAlign="center">Выйти</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
