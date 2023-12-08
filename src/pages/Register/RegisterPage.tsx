@@ -4,7 +4,7 @@ export const RegisterPage = () => {
   return (
     <div
       style={{
-        height: '100vh',
+        height: '95vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
