@@ -19,6 +19,7 @@ export const CreatingQuizPage = () => {
   });
 
   const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(1)]);
+  const [lastId, setLastId] = useState<number>(2);
 
   const changeBlock = (newBlock: CreatingQuizBlock) => {
     setBlocks((oldBlocks) =>
@@ -27,7 +28,12 @@ export const CreatingQuizPage = () => {
   };
 
   const addNewBlock = () => {
-    setBlocks((oldBlocks) => [...oldBlocks, createEmptyBlock(oldBlocks.length + 1)]);
+    setBlocks((oldBlocks) => [...oldBlocks, createEmptyBlock(lastId)]);
+    setLastId((i) => i + 1);
+  };
+
+  const removeBlock = (blockId: QuizBlockId) => {
+    setBlocks((oldBlocks) => oldBlocks.filter((b) => b.id !== blockId));
   };
 
   return (
@@ -39,7 +45,13 @@ export const CreatingQuizPage = () => {
       <Typography variant="h3">Вопросы</Typography>
       {blocks.map((b) => (
         <div style={{ marginBottom: '10px' }}>
-          <BlockItem value={b} onChange={changeBlock} key={b.id} blocks={blocks} />
+          <BlockItem
+            value={b}
+            onChange={changeBlock}
+            key={b.id}
+            blocks={blocks}
+            onRemove={removeBlock}
+          />
         </div>
       ))}
       <Button

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   FormControl,
@@ -22,9 +23,10 @@ export interface BlockItemProps {
   value: CreatingQuizBlock;
   onChange: (newBlock: CreatingQuizBlock) => void;
   blocks: CreatingQuizBlock[];
+  onRemove: (blockId: QuizBlockId) => void;
 }
 
-export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
+export const BlockItem = ({ value, onChange, blocks, onRemove }: BlockItemProps) => {
   useEffect(() => {
     onChange({ ...value, payload: getEmptyPayloadForQuizType(value.type) });
   }, [value.type]);
@@ -88,6 +90,15 @@ export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
             blocks={blocks}
           />
         )}
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ marginTop: '20px' }}
+          onClick={() => onRemove(value.id)}
+          disabled={blocks.length < 2}
+        >
+          Удалить вопрос
+        </Button>
       </CardContent>
     </Card>
   );
