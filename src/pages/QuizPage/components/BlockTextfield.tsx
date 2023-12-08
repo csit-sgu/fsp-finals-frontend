@@ -22,6 +22,7 @@ export const BlockTextfield = ({ lock, submitCallback }: BlockTextfieldProps) =>
             rows={4}
             defaultValue="Default Value"
             disabled={lock}
+            sx={{ width: '100%' }}
           />
         </CardContent>
         <CardActions>
