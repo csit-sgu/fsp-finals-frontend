@@ -7,7 +7,12 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { BlockCasePayload, CreatingQuizBlock, QuizBlockType } from '../CreatingQuizModels';
+import {
+  BlockCasePayload,
+  CreatingQuizBlock,
+  QuizBlockId,
+  QuizBlockType,
+} from '../CreatingQuizModels';
 import { CasePayloadEditor } from './CasePayloadEditor';
 import { useEffect } from 'react';
 import { FreeAnswerPayloadEditor } from './FreeAnswerPayloadEditor';
@@ -16,9 +21,10 @@ import { MultipleChoicePayloadEditor } from './MultipleChoicePayloadEditor';
 export interface BlockItemProps {
   value: CreatingQuizBlock;
   onChange: (newBlock: CreatingQuizBlock) => void;
+  blocks: CreatingQuizBlock[];
 }
 
-export const BlockItem = ({ value, onChange }: BlockItemProps) => {
+export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
   useEffect(() => {
     onChange({ ...value, payload: getEmptyPayloadForQuizType(value.type) });
   }, [value.type]);
@@ -50,7 +56,16 @@ export const BlockItem = ({ value, onChange }: BlockItemProps) => {
             </MenuItem>
           </Select>
         </FormControl>
-        {value.type === 'CASE' && <CasePayloadEditor />}
+        {value.type === 'CASE' && (
+          <CasePayloadEditor
+            value={value}
+            onChange={onChange}
+            createBlockCallback={function (blockId: QuizBlockId): void {
+              throw new Error('Function not implemented.');
+            }}
+            blocks={blocks}
+          />
+        )}
         {value.type === 'FREE_ANSWER' && <FreeAnswerPayloadEditor />}
         {value.type === 'MULTIPLE_CHOICE' && <MultipleChoicePayloadEditor />}
       </CardContent>

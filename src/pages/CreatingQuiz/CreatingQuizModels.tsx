@@ -22,7 +22,7 @@ export interface BlockMultipleChoicePayload {
 }
 
 export interface BlockFreeAnswerPayload {
-  options: PossibleFreeAnswer[];
+  options: UnbranchedAnswerChoice[];
   nextBlock: QuizBlockId | null;
 }
 
@@ -31,17 +31,14 @@ export interface BlockCasePayload {
 }
 
 export interface UnbranchedAnswerChoice {
+  id: number;
   text: string;
   score: number;
 }
 
 export interface BranchedAnswerChoice {
+  id: number;
   text: string;
   score: number;
   nextBlock: QuizBlockId | null;
-}
-
-export interface PossibleFreeAnswer {
-  text: string;
-  score: number;
 }

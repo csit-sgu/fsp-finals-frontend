@@ -18,7 +18,7 @@ export const CreatingQuizPage = () => {
     category: '',
   });
 
-  const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(0)]);
+  const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(1)]);
 
   const changeBlock = (newBlock: CreatingQuizBlock) => {
     setBlocks((oldBlocks) =>
@@ -27,11 +27,11 @@ export const CreatingQuizPage = () => {
   };
 
   const addNewBlock = () => {
-    setBlocks((oldBlocks) => [...oldBlocks, createEmptyBlock(oldBlocks.length)]);
+    setBlocks((oldBlocks) => [...oldBlocks, createEmptyBlock(oldBlocks.length + 1)]);
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="xl">
       <Typography variant="h2">Создать квиз</Typography>
       <div style={{ marginBottom: '10px' }}>
         <QuizMetadataForm value={quizMetadata} onChange={setQuizMetadata} />
@@ -39,7 +39,7 @@ export const CreatingQuizPage = () => {
       <Typography variant="h3">Вопросы</Typography>
       {blocks.map((b) => (
         <div style={{ marginBottom: '5px' }}>
-          <BlockItem value={b} onChange={changeBlock} key={b.id} />
+          <BlockItem value={b} onChange={changeBlock} key={b.id} blocks={blocks} />
         </div>
       ))}
       <Button variant="outlined" onClick={() => addNewBlock()}>
