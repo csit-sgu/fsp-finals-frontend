@@ -38,6 +38,7 @@ export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
           multiline
           rows={3}
           label="Текст вопроса"
+          sx={{ marginBottom: '20px' }}
         />
         <FormControl>
           <InputLabel id="select-type-label">Тип вопроса</InputLabel>
@@ -45,6 +46,7 @@ export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
             labelId="select-type-label"
             value={value.type}
             onChange={(e) => onChange({ ...value, type: e.target.value as QuizBlockType })}
+            sx={{ marginBottom: value.type ? '20px' : '0' }}
           >
             <MenuItem value="">
               <em>Не выбрано</em>

@@ -50,7 +50,7 @@ export const CasePayloadEditor = ({
               Вариант ответа
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={2}>
+              <Grid item md={4} xs={12}>
                 <TextField
                   sx={{ width: '100%' }}
                   label="Текст"
@@ -60,7 +60,7 @@ export const CasePayloadEditor = ({
                   }
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   sx={{ width: '100%' }}
                   label="Кол-во очков за ответ"
@@ -75,7 +75,7 @@ export const CasePayloadEditor = ({
                   inputProps={{ min: '0', max: '1', step: '0.1' }}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item md={6} xs={12}>
                 <NextBlockChooser
                   blockId={value.id}
                   currentNextBlockId={(opt as BranchedAnswerChoice).nextBlock || ''}

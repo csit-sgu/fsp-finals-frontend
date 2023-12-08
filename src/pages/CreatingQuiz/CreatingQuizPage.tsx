@@ -38,7 +38,7 @@ export const CreatingQuizPage = () => {
       </div>
       <Typography variant="h3">Вопросы</Typography>
       {blocks.map((b) => (
-        <div style={{ marginBottom: '5px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <BlockItem value={b} onChange={changeBlock} key={b.id} blocks={blocks} />
         </div>
       ))}
