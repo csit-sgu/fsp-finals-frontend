@@ -66,9 +66,11 @@ export const CasePayloadEditor = ({
                   onChange={(e) =>
                     changeOption({
                       ...(opt as BranchedAnswerChoice),
-                      score: parseInt(e.target.value.replace(/\D/g, '') || '0'),
+                      score: Number(e.target.value),
                     })
                   }
+                  type="number"
+                  inputProps={{ min: '0', max: '1', step: '0.1' }}
                 />
               </Grid>
               <Grid item xs={8}>

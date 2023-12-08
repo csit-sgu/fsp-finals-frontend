@@ -67,7 +67,16 @@ export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
           />
         )}
         {value.type === 'FREE_ANSWER' && <FreeAnswerPayloadEditor />}
-        {value.type === 'MULTIPLE_CHOICE' && <MultipleChoicePayloadEditor />}
+        {value.type === 'MULTIPLE_CHOICE' && (
+          <MultipleChoicePayloadEditor
+            value={value}
+            onChange={onChange}
+            createBlockCallback={function (blockId: QuizBlockId): void {
+              throw new Error('Function not implemented.');
+            }}
+            blocks={blocks}
+          />
+        )}
       </CardContent>
     </Card>
   );
