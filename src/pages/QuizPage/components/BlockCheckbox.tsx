@@ -14,7 +14,7 @@ export interface BlockCheckboxProps {
 
 export const BlockCheckbox = ({ lock, submitCallback }: BlockCheckboxProps) => {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box>
       <Card variant="outlined">
         <CardContent>
           <FormGroup>

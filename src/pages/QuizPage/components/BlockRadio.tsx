@@ -16,7 +16,7 @@ export interface BlockRadioProps {
 
 export const BlockRadio = ({ lock, submitCallback }: BlockRadioProps) => {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box>
       <Card variant="outlined">
         <CardContent>
           <FormControl>

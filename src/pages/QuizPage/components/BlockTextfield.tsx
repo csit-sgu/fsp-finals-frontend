@@ -12,7 +12,7 @@ export interface BlockTextfieldProps {
 
 export const BlockTextfield = ({ lock, submitCallback }: BlockTextfieldProps) => {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box>
       <Card variant="outlined">
         <CardContent>
           <TextField
