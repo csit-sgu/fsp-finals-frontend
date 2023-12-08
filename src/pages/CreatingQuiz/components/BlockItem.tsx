@@ -27,10 +27,6 @@ export interface BlockItemProps {
 }
 
 export const BlockItem = ({ value, onChange, blocks, onRemove }: BlockItemProps) => {
-  useEffect(() => {
-    onChange({ ...value, payload: getEmptyPayloadForQuizType(value.type) });
-  }, [value.type]);
-
   return (
     <Card>
       <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -47,7 +43,13 @@ export const BlockItem = ({ value, onChange, blocks, onRemove }: BlockItemProps)
           <Select
             labelId="select-type-label"
             value={value.type}
-            onChange={(e) => onChange({ ...value, type: e.target.value as QuizBlockType })}
+            onChange={(e) => {
+              onChange({
+                ...value,
+                type: e.target.value as QuizBlockType,
+                payload: getEmptyPayloadForQuizType(value.type),
+              });
+            }}
             sx={{ marginBottom: value.type ? '20px' : '0' }}
           >
             <MenuItem value="">

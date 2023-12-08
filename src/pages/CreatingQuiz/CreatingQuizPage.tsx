@@ -1,6 +1,6 @@
 import { Button, Container, Typography } from '@mui/material';
 import { CreatingQuizBlock, QuizBlockId, QuizMetadata } from './CreatingQuizModels';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { QuizMetadataForm } from './components/QuizMetadataForm';
 import { BlockItem } from './components/BlockItem';
 
@@ -20,6 +20,29 @@ export const CreatingQuizPage = () => {
 
   const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(1)]);
   const [lastId, setLastId] = useState<number>(2);
+
+  const storageStateLoaded = useRef(false);
+
+  useEffect(() => {
+    const draftQuizMetadata = localStorage.getItem('quizMetadata');
+    const draftBlocks = localStorage.getItem('blocks');
+    if (draftBlocks && draftQuizMetadata) {
+      setQuizMetadata(JSON.parse(draftQuizMetadata));
+      console.dir(JSON.parse(draftBlocks));
+      setBlocks(JSON.parse(draftBlocks));
+      storageStateLoaded.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (storageStateLoaded.current) {
+      storageStateLoaded.current = false;
+      return;
+    }
+
+    localStorage.setItem('quizMetadata', JSON.stringify(quizMetadata));
+    localStorage.setItem('blocks', JSON.stringify(blocks));
+  }, [quizMetadata, blocks]);
 
   const changeBlock = (newBlock: CreatingQuizBlock) => {
     setBlocks((oldBlocks) =>
