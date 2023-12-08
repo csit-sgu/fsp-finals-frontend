@@ -3,6 +3,8 @@ import { Container } from '@mui/system';
 import { QuizBlock, QuizBlockId, QuizBlockType } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
+import { Bar } from '../Bar';
+import * as React from 'react';
 
 const quizTheme = 'Финансовые нарушения, Защита персональных данных';
 const quizDescritption = 'Description...';
@@ -38,17 +40,21 @@ export const QuizPage = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <QuizAboutCard
-        id="1"
-        name="Aboba"
-        theme={quizTheme}
-        description={quizDescritption}
-        startCallback={addBlock}
-      />
-      {blocks.map((b) => (
-        <QuizBlockCard block={b} onSubmit={addBlock} key={b.id} />
-      ))}
-    </Container>
+    <React.Fragment>
+      <Bar>
+        <Container maxWidth="sm">
+          <QuizAboutCard
+            id="1"
+            name="Aboba"
+            theme={quizTheme}
+            description={quizDescritption}
+            startCallback={addBlock}
+          />
+          {blocks.map((b) => (
+            <QuizBlockCard block={b} onSubmit={addBlock} key={b.id} />
+          ))}
+        </Container>
+      </Bar>
+    </React.Fragment>
   );
 };
