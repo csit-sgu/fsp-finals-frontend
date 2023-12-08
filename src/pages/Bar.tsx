@@ -11,8 +11,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Продукты', 'Блог'];
+const settings = ['Профиль', 'Выход'];
 
 interface BarProps {
   children: React.ReactNode;
@@ -46,7 +46,7 @@ export const Bar = ({ children }: BarProps) => {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -57,7 +57,7 @@ export const Bar = ({ children }: BarProps) => {
                 textDecoration: 'none',
               }}
             >
-              LOGO
+              ИМЯ
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
