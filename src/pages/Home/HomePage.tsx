@@ -1,12 +1,14 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import {
+  Grid,
+  Button,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Card,
+  Container,
+  Typography,
+  Box,
+} from '@mui/material';
 import { Bar } from '../Bar';
 
 interface IQuizCard {
@@ -133,8 +135,8 @@ export const HomePage = () => {
             columnSpacing={0}
             rowSpacing={2}
           >
-            {[...new Array(10)].map(() => (
-              <Grid item xs={12}>
+            {[...new Array(10)].map((_, i) => (
+              <Grid item key={i} xs={12}>
                 <QuizCardHor />
               </Grid>
             ))}
