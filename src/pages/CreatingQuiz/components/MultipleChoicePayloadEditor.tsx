@@ -86,7 +86,7 @@ export const MultipleChoicePayloadEditor = ({
                   Вариант ответа
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid item md={6} xs={12}>
                     <TextField
                       label="Текст"
                       value={opt.text}
@@ -94,7 +94,7 @@ export const MultipleChoicePayloadEditor = ({
                       onChange={(e) => changeOption({ ...opt, text: e.target.value })}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item md={6} xs={12}>
                     <TextField
                       label="Кол-во очков за ответ"
                       value={opt.score}
