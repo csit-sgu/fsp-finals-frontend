@@ -15,8 +15,8 @@ import {
 } from '../CreatingQuizModels';
 import { CasePayloadEditor } from './CasePayloadEditor';
 import { useEffect } from 'react';
-import { FreeAnswerPayloadEditor } from './FreeAnswerPayloadEditor';
 import { MultipleChoicePayloadEditor } from './MultipleChoicePayloadEditor';
+import { FreeAnswerPayloadEditor } from './FreeAnswerPayloadEditor';
 
 export interface BlockItemProps {
   value: CreatingQuizBlock;
@@ -66,7 +66,16 @@ export const BlockItem = ({ value, onChange, blocks }: BlockItemProps) => {
             blocks={blocks}
           />
         )}
-        {value.type === 'FREE_ANSWER' && <FreeAnswerPayloadEditor />}
+        {value.type === 'FREE_ANSWER' && (
+          <FreeAnswerPayloadEditor
+            value={value}
+            onChange={onChange}
+            createBlockCallback={function (blockId: QuizBlockId): void {
+              throw new Error('Function not implemented.');
+            }}
+            blocks={blocks}
+          />
+        )}
         {value.type === 'MULTIPLE_CHOICE' && (
           <MultipleChoicePayloadEditor
             value={value}

@@ -52,6 +52,7 @@ export const CasePayloadEditor = ({
             <Grid container spacing={2}>
               <Grid item xs={2}>
                 <TextField
+                  sx={{ width: '100%' }}
                   label="Текст"
                   value={opt.text}
                   onChange={(e) =>
@@ -61,6 +62,7 @@ export const CasePayloadEditor = ({
               </Grid>
               <Grid item xs={2}>
                 <TextField
+                  sx={{ width: '100%' }}
                   label="Кол-во очков за ответ"
                   value={opt.score}
                   onChange={(e) =>
