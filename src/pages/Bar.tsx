@@ -1,84 +1,46 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link'
+import {
+  MenuItem,
+  Tooltip,
+  Button,
+  Avatar,
+  Container,
+  Menu,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
+const pages = [
+  ['Продукты', '/products'],
+  ['Блог', '/blog'],
+];
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-const pages = ['Продукты', 'Блог'];
-const settings = ['Профиль', 'Выход'];
+const settings = [
+  ['Профиль', '/profile'],
+  ['Выйти', '/logout'],
+];
 
 interface BarProps {
   children: React.ReactNode;
 }
 
 export const Bar = ({ children }: BarProps) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    // console.log(event.)
-    setAnchorElUser(null);
+  const navigateTo = (page: string) => {
+    return () => {
+      setAnchorElUser(null);
+      navigate(page);
+    };
   };
 
   return (
@@ -104,23 +66,17 @@ export const Bar = ({ children }: BarProps) => {
               ИМЯ
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-              {pages.map((page) => (
+              {pages.map(([name, page]) => (
                 <Button
                   key={page}
-                  onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
+                  onClick={navigateTo(page)}
                 >
-                  {page}
+                  {name}
                 </Button>
               ))}
             </Box>
 
-            <Search>
-              {/* <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper> */}
-              <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
-            </Search>
             <Box sx={{ flexGrow: 1 }} />
 
             <Box sx={{ flexGrow: 0 }}>
@@ -143,19 +99,13 @@ export const Bar = ({ children }: BarProps) => {
                   horizontal: 'right',
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClose={() => setAnchorElUser(null)}
               >
-                {/* {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                {settings.map(([name, page]) => (
+                  <MenuItem key={page} onClick={navigateTo(page)}>
+                    <Typography textAlign="center">{name}</Typography>
                   </MenuItem>
-                ))} */}
-                <MenuItem>
-                  <Link textAlign="center" href="/profile">Профиль</Link>
-                </MenuItem>
-                <MenuItem>
-                  <Typography textAlign="center">Выйти</Typography>
-                </MenuItem>
+                ))}
               </Menu>
             </Box>
           </Toolbar>
