@@ -10,6 +10,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ProfilePage } from './pages/Profile/ProfilePage';
+import { CreatingQuizPage } from './pages/CreatingQuiz/CreatingQuizPage';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />,
+  },
+  {
+    path: '/quizzes/create',
+    element: <CreatingQuizPage />,
   },
   {
     path: '/quizzes/:quizId',
