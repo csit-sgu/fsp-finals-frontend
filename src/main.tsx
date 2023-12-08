@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { RegisterPage } from './pages/Register/RegisterPage';
-import { ScriptPage } from './pages/ScriptPage/ScriptPage';
+import { QuizPage } from './pages/QuizPage/QuizPage';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
   {
-    path: '/script1',
-    element: <ScriptPage />,
+    path: '/quizzes/:quizId',
+    element: <QuizPage />,
   },
   {
     path: '/profile',

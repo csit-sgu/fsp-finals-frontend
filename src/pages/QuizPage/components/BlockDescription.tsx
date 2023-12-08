@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export const BlockDescription = () => {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box>
       <Card variant="outlined">
         <CardContent>
           <Typography variant="body2">

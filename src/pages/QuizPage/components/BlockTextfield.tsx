@@ -5,10 +5,14 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 
-// TODO: add types
-export const BlockTextfield = ({ lock, submitCallback }: any) => {
+export interface BlockTextfieldProps {
+  lock: boolean;
+  submitCallback: () => void;
+}
+
+export const BlockTextfield = ({ lock, submitCallback }: BlockTextfieldProps) => {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box>
       <Card variant="outlined">
         <CardContent>
           <TextField
@@ -18,10 +22,13 @@ export const BlockTextfield = ({ lock, submitCallback }: any) => {
             rows={4}
             defaultValue="Default Value"
             disabled={lock}
+            sx={{ width: '100%' }}
           />
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={submitCallback}>Принять</Button>
+          <Button size="small" onClick={submitCallback}>
+            Принять
+          </Button>
         </CardActions>
       </Card>
     </Box>
