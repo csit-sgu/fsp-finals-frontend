@@ -42,8 +42,16 @@ export const CreatingQuizPage = () => {
           <BlockItem value={b} onChange={changeBlock} key={b.id} blocks={blocks} />
         </div>
       ))}
-      <Button variant="outlined" onClick={() => addNewBlock()}>
+      <Button
+        variant="outlined"
+        size="large"
+        sx={{ width: '100%', marginBottom: '10px' }}
+        onClick={() => addNewBlock()}
+      >
         Добавить вопрос
+      </Button>
+      <Button variant="outlined" size="large" sx={{ width: '100%' }} color="success">
+        Создать квиз
       </Button>
     </Container>
   );
