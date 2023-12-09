@@ -1,5 +1,12 @@
 import { Box } from '@mui/material';
-import { Block, BlockId, BlockType } from '../QuizModels';
+import {
+  Block,
+  BlockId,
+  BlockType,
+  CasePayload,
+  FreeAnswerPayload,
+  MultichoicePayload,
+} from '../QuizModels';
 import { BlockCheckbox } from './BlockCheckbox';
 import { BlockDescription } from './BlockDescription';
 import { BlockRadio } from './BlockRadio';
@@ -8,7 +15,7 @@ import { useState } from 'react';
 
 export interface QuizBlockCardProps {
   block: Block;
-  onSubmit: (blockId: BlockId) => void;
+  onSubmit: (currentId: BlockId, nextId: BlockId, value: string | string[]) => void;
 }
 
 export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
@@ -16,27 +23,42 @@ export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
 
   let blockCard;
 
-  const onClick = () => {
+  const submit = (nextId: BlockId, value: string | string[]) => {
     setLock(true);
-    onSubmit(block.id);
+    onSubmit(block.block_id, nextId, value);
   };
 
   switch (block.block_type) {
     case BlockType.Case:
-      blockCard = <BlockRadio lock={lock} submitCallback={onClick} />;
+      blockCard = (
+        <BlockRadio lock={lock} payload={block.payload as CasePayload} onSubmit={submit} />
+      );
       break;
     case BlockType.MultipleChoice:
-      blockCard = <BlockCheckbox lock={lock} submitCallback={onClick} />;
+      blockCard = (
+        <BlockCheckbox
+          lock={lock}
+          payload={block.payload as MultichoicePayload}
+          onSubmit={submit}
+        />
+      );
       break;
     case BlockType.FreeAnswer:
-      blockCard = <BlockTextfield lock={lock} submitCallback={onClick} />;
+      blockCard = (
+        <BlockTextfield
+          lock={lock}
+          payload={block.payload as FreeAnswerPayload}
+          onSubmit={submit}
+        />
+      );
       break;
   }
 
   return (
     <Box>
-      <BlockDescription />
+      <BlockDescription text={block.problem} />
       {blockCard}
+      <br />
     </Box>
   );
 };
