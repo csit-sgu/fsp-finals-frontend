@@ -18,6 +18,17 @@ export const getUser = async () => {
   return axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
 };
 
+export const getFilteredQuizList = async (
+  ageGroup: string | null,
+  category: string | null,
+  complexity: string | null,
+) => {
+  // TODO: add backend url
+  return axios.get(`${BACKEND_URL}/quiz`, {
+    params: { age_group: ageGroup, category, complexity },
+  });
+};
+
 // TODO: add explicit type
 export const postAttempt = async (attempt: any) => {
   return axios.post(`${BACKEND_URL}/attempt`, attempt, { withCredentials: true });

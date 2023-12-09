@@ -10,18 +10,20 @@ import {
   Box,
 } from '@mui/material';
 import { Bar } from '../Bar';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { QuizBackend, QuizId } from '../QuizPage/QuizModels';
+import { QuizBackend } from '../QuizPage/QuizModels';
 import { getQuizList } from '../../backend';
+import { QuizCardHor } from '../../components/QuizCardHor';
+import { useNavigate } from 'react-router-dom';
 
 interface IQuizCard {
   title: string;
   caption: string;
   imagePath: string;
+  onClick?: () => void;
 }
 
-const QuizCardVert = ({ title, caption, imagePath }: IQuizCard) => {
+const QuizCardVert = ({ title, caption, imagePath, onClick }: IQuizCard) => {
   return (
     <Card variant="outlined">
       <CardMedia component="img" height="200" image={`/${imagePath}`} />
@@ -34,46 +36,17 @@ const QuizCardVert = ({ title, caption, imagePath }: IQuizCard) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="large">Открыть</Button>
+        <Button size="large" onClick={onClick}>
+          Открыть
+        </Button>
       </CardActions>
     </Card>
   );
 };
 
-interface IQuizCardHor {
-  title: string;
-  category: string;
-  quizId: QuizId;
-}
-
-const QuizCardHor = ({ title, category, quizId }: IQuizCardHor) => {
-  const navigate = useNavigate();
-  return (
-    <Card variant="outlined">
-      <Grid container direction="row" justifyContent="space-between" alignItems="center">
-        <Grid item>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {title}
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {category}
-            </Typography>
-          </CardContent>
-        </Grid>
-        <Grid item xs="auto">
-          <CardActions>
-            <Button variant="contained" size="large" onClick={() => navigate(`/quizzes/${quizId}`)}>
-              Открыть
-            </Button>
-          </CardActions>
-        </Grid>
-      </Grid>
-    </Card>
-  );
-};
-
 export const HomePage = () => {
+  const navigate = useNavigate();
+
   const [quizList, setQuizList] = useState<QuizBackend[]>([]);
   const [gotQuizList, setGotQuizList] = useState<boolean>(false);
 
@@ -106,6 +79,7 @@ export const HomePage = () => {
                 свои знания о защите информации, обнаружении угроз и правилах
                 безопасного поведения в онлайне."
                 imagePath="quiz.avif"
+                onClick={() => navigate('/quizzes?complexity=0')}
               />
             </Grid>
             <Grid item xs={4}>
@@ -117,6 +91,7 @@ export const HomePage = () => {
                 мышления. Попробуйте свои силы, разрабатывая стратегии и находя
                 решения для реальных проблем в сфере кибербезопасности."
                 imagePath="branched.png"
+                onClick={() => navigate('/quizzes')}
               />
             </Grid>
             <Grid item xs={4}>
@@ -128,6 +103,7 @@ export const HomePage = () => {
                 экспертами, чтобы повысить вашу квалификацию в реальных
                 сценариях."
                 imagePath="training.avif"
+                onClick={() => navigate('/quizzes')}
               />
             </Grid>
           </Grid>
@@ -153,6 +129,7 @@ export const HomePage = () => {
                 нарушений, анализируйте методы противодействия и повышайте свою
                 компетенцию в предотвращении финансовых рисков."
                 imagePath="robber.webp"
+                onClick={() => navigate('/quizzes?category=finance')}
               />
             </Grid>
             <Grid item xs={6}>
@@ -163,6 +140,7 @@ export const HomePage = () => {
                 Изучайте передовые стратегии и техники защиты личных данных,
                 разрабатывайте навыки обнаружения и предотвращения утечек."
                 imagePath="personal.jpg"
+                onClick={() => navigate('/quizzes?category=personal_data')}
               />
             </Grid>
             <Grid item xs={6}>
@@ -174,6 +152,7 @@ export const HomePage = () => {
                 практические навыки по обеспечению безопасности вашего
                 компьютера, смартфона и других гаджетов."
                 imagePath="device-security.png"
+                onClick={() => navigate('/quizzes?category=devices_security')}
               />
             </Grid>
             <Grid item xs={6}>
@@ -186,6 +165,7 @@ export const HomePage = () => {
                 поведения в сети, и ощутите уверенность в своем
                 онлайн-присутствии."
                 imagePath="internet-rules.jpg"
+                onClick={() => navigate('/quizzes?category=web')}
               />
             </Grid>
           </Grid>

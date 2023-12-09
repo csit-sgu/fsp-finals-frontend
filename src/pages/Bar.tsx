@@ -15,7 +15,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const pages = [
-  ['Подписки', '/subscribe'],
+  ['Подписки', '/subscriptions'],
   ['Создать тест', '/quizzes/create'],
 ];
 

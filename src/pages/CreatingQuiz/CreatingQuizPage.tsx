@@ -9,14 +9,12 @@ import { BACKEND_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import { Bar } from '../Bar';
 
-const createEmptyBlock: (id: QuizBlockId) => CreatingQuizBlock = (id) => ({
-  id,
-  problem: '',
-  type: '',
-  payload: null,
-});
-
-async function getUser(): Promise<{ username: string; is_admin: boolean } | null> {
+async function getUser(): Promise<{
+  username: string;
+  is_admin: boolean;
+  name: string;
+  surname: string;
+} | null> {
   try {
     const user = await axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
     return user.data;
@@ -24,6 +22,13 @@ async function getUser(): Promise<{ username: string; is_admin: boolean } | null
     return null;
   }
 }
+
+const createEmptyBlock: (id: QuizBlockId) => CreatingQuizBlock = (id) => ({
+  id,
+  problem: '',
+  type: '',
+  payload: null,
+});
 
 async function createQuiz(quiz: BackendQuizDto) {
   await axios.post(`${BACKEND_URL}/quiz`, quiz, { withCredentials: true });

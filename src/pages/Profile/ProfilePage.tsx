@@ -1,11 +1,64 @@
 import { Card, CardContent, Container, Grid, Typography } from '@mui/material';
+import { RadarChart } from './RadarChart';
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
+import { useEffect, useState } from 'react';
+import { getUser } from '../../backend';
+import { useNavigate } from 'react-router-dom';
 import { Bar } from '../Bar';
 
 export const ProfilePage = () => {
+  const navigate = useNavigate();
+  const [attempts, setAttempts] = useState([]);
+  const [fullName, setFullName] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    get_attempts().then((r) => {
+      setAttempts(r.data);
+    });
+
+    getUser().then((u) => {
+      if (u === null) {
+        navigate('/login');
+        return;
+      }
+
+      setFullName(u?.name + ' ' + u?.surname);
+      setLoading(false);
+    });
+  }, []);
+
+  const chartData = {
+    labels: [
+      'Финансовые нарушения',
+      'Защита персональных данных',
+      'Защита личных цифровых устройств',
+      'Правила работы в сети интернет',
+    ],
+    datasets: [
+      {
+        label: 'Компетенции за последний месяц',
+        data: [55, 83, 96, 46],
+        backgroundColor: ['#ff9800A0', '#ff9800A0', '#ff9800A0'],
+        borderWidth: 3,
+      },
+    ],
+  };
+
+  if (loading) {
+    return (
+      <Container maxWidth="lg">
+        <Typography variant="h2">Загрузка...</Typography>
+      </Container>
+    );
+  }
+
   return (
     <Bar>
       <Container maxWidth="lg">
-        <Typography variant="h2">Иван Иванов</Typography>
+        <Typography variant="h2">{fullName}</Typography>
+        <RadarChart chartData={chartData} />
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Card>
@@ -50,4 +103,8 @@ export const ProfilePage = () => {
       </Container>
     </Bar>
   );
+};
+
+const get_attempts = async () => {
+  return await axios.get(`${BACKEND_URL}/attempts`);
 };
