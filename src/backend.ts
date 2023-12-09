@@ -1,4 +1,4 @@
-import { BlockId, QuizId } from "./pages/QuizPage/QuizModels";
+import { BlockId, QuizId } from './pages/QuizPage/QuizModels';
 import axios from 'axios';
 
 const BACKEND_URL = 'http://localhost:8000';

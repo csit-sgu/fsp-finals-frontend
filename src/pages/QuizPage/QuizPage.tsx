@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { Block, QuizBackend, BlockId, QuizId, blockTypeFromString } from './QuizModels';
+import { Block, QuizBackend, BlockId, blockTypeFromString } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
 import { Bar } from '../Bar';
