@@ -6,7 +6,7 @@ export const RadarChart = ({ chartData }: any) => {
   const ref = useRef();
 
   return (
-    <div className="chart-container" style={{ marginTop: '100px', marginBottom: '100px' }}>
+    <div className="chart-container" style={{ marginTop: '30px', marginBottom: '30px' }}>
       <Radar
         ref={ref}
         data={chartData}
