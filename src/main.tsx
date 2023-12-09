@@ -14,6 +14,7 @@ import '@fontsource/ibm-plex-mono/300.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/ibm-plex-mono/700.css';
+import { LogoutPage } from './pages/Logout/LogoutPage';
 
 const theme = createTheme({
   palette: {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/logout',
+    element: <LogoutPage />,
   },
   {
     path: '/register',
