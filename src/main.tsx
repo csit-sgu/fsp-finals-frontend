@@ -5,12 +5,32 @@ import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { RegisterPage } from './pages/Register/RegisterPage';
 import { QuizPage } from './pages/QuizPage/QuizPage';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import { ProfilePage } from './pages/Profile/ProfilePage';
 import { CreatingQuizPage } from './pages/CreatingQuiz/CreatingQuizPage';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { orange } from '@mui/material/colors';
+
+import '@fontsource/ibm-plex-mono/300.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: orange[500],
+    },
+    secondary: {
+      main: orange[500],
+    },
+    navbar: {
+      main: '#fff',
+    },
+  },
+  typography: {
+    fontFamily: 'IBM Plex Mono',
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -41,6 +61,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>,
 );

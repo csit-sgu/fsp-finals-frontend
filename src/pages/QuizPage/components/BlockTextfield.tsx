@@ -1,34 +1,40 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
+import { Button, CardActions, CardContent, Card, TextField, Box } from '@mui/material';
+import { BlockId, FreeAnswerPayload } from '../QuizModels';
+import { useState, Fragment } from 'react';
 
 export interface BlockTextfieldProps {
   lock: boolean;
-  submitCallback: () => void;
+  payload: FreeAnswerPayload;
+  onSubmit: (blockId: BlockId, value: string) => void;
 }
 
-export const BlockTextfield = ({ lock, submitCallback }: BlockTextfieldProps) => {
+export const BlockTextfield = ({ lock, payload, onSubmit }: BlockTextfieldProps) => {
+  const [value, setValue] = useState<string>('');
+  const submit = () => {
+    onSubmit(payload.next_block, value);
+  };
   return (
     <Box>
       <Card variant="outlined">
         <CardContent>
           <TextField
             id="outlined-multiline-static"
-            label="Multiline"
+            label="Свободный ответ"
             multiline
             rows={4}
-            defaultValue="Default Value"
             disabled={lock}
             sx={{ width: '100%' }}
+            onChange={(event) => setValue(event.target.value)}
           />
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={submitCallback}>
-            Принять
-          </Button>
+          {lock ? (
+            <Fragment />
+          ) : (
+            <Button size="small" onClick={submit}>
+              Принять
+            </Button>
+          )}
         </CardActions>
       </Card>
     </Box>

@@ -1,5 +1,12 @@
 import { Box } from '@mui/material';
-import { QuizBlock, QuizBlockId, QuizBlockType } from '../QuizModels';
+import {
+  Block,
+  BlockId,
+  BlockType,
+  CasePayload,
+  FreeAnswerPayload,
+  MultichoicePayload,
+} from '../QuizModels';
 import { BlockCheckbox } from './BlockCheckbox';
 import { BlockDescription } from './BlockDescription';
 import { BlockRadio } from './BlockRadio';
@@ -7,8 +14,8 @@ import { BlockTextfield } from './BlockTextfield';
 import { useState } from 'react';
 
 export interface QuizBlockCardProps {
-  block: QuizBlock;
-  onSubmit: (blockId: QuizBlockId) => void;
+  block: Block;
+  onSubmit: (currentId: BlockId, nextId: BlockId, value: string | string[]) => void;
 }
 
 export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
@@ -16,27 +23,42 @@ export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
 
   let blockCard;
 
-  const onClick = () => {
+  const submit = (nextId: BlockId, value: string | string[]) => {
     setLock(true);
-    onSubmit(block.id);
+    onSubmit(block.block_id, nextId, value);
   };
 
-  switch (block.blockType) {
-    case QuizBlockType.Case:
-      blockCard = <BlockRadio lock={lock} submitCallback={onClick} />;
+  switch (block.block_type) {
+    case BlockType.Case:
+      blockCard = (
+        <BlockRadio lock={lock} payload={block.payload as CasePayload} onSubmit={submit} />
+      );
       break;
-    case QuizBlockType.MultipleChoice:
-      blockCard = <BlockCheckbox lock={lock} submitCallback={onClick} />;
+    case BlockType.MultipleChoice:
+      blockCard = (
+        <BlockCheckbox
+          lock={lock}
+          payload={block.payload as MultichoicePayload}
+          onSubmit={submit}
+        />
+      );
       break;
-    case QuizBlockType.FreeAnswer:
-      blockCard = <BlockTextfield lock={lock} submitCallback={onClick} />;
+    case BlockType.FreeAnswer:
+      blockCard = (
+        <BlockTextfield
+          lock={lock}
+          payload={block.payload as FreeAnswerPayload}
+          onSubmit={submit}
+        />
+      );
       break;
   }
 
   return (
     <Box>
-      <BlockDescription />
+      <BlockDescription text={block.problem} />
       {blockCard}
+      <br />
     </Box>
   );
 };

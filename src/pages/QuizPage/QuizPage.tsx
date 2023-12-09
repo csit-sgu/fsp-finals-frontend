@@ -1,54 +1,70 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { QuizBlock, QuizBlockId, QuizBlockType } from './QuizModels';
+import { Block, QuizBackend, BlockId, blockTypeFromString } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
-
-const quizTheme = 'Финансовые нарушения, Защита персональных данных';
-const quizDescritption = 'Description...';
-
-const exampleBlock = (id: QuizBlockId) => ({
-  id,
-  problem: 'Aboba',
-  blockType: QuizBlockType.MultipleChoice,
-  payload: {
-    options: [
-      {
-        text: 'Aboba 1',
-        score: 1.0,
-      },
-      {
-        text: 'Aboba 2',
-        score: 0.7,
-      },
-      {
-        text: 'Aboba 3',
-        score: 0,
-      },
-    ],
-    nextBlock: 2,
-  },
-});
+import { Bar } from '../Bar';
+import { useParams } from 'react-router-dom';
+import { getBlock, getQuiz } from '../../backend';
+import * as React from 'react';
 
 export const QuizPage = () => {
-  const [blocks, setBlocks] = useState<QuizBlock[]>([]);
+  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [quiz, setQuiz] = useState<QuizBackend | null>(null);
+  const [answers, setAnswers] = useState<[BlockId, string | string[]][]>([]);
+  const params = useParams();
 
-  const addBlock = () => {
-    setBlocks((b) => [...b, exampleBlock(b.length)]);
+  const getNextBlock = (nextId: BlockId) => {
+    if (nextId !== null) {
+      getBlock(nextId).then((res) => {
+        const block_resp = res.data;
+        // TODO: check for null
+        block_resp.block_type = blockTypeFromString(block_resp.block_type);
+        block_resp.payload = JSON.parse(block_resp.payload);
+        const block: Block = block_resp;
+        console.log(block);
+        setBlocks([...blocks, block]);
+      });
+    } else {
+      // TODO: send answers as attempt to backend
+      console.log('QUIZ ENDED');
+      console.log('RESULTS', answers);
+    }
+  };
+
+  if (quiz === null) {
+    getQuiz(params.quizId).then((res) => {
+      const quiz: QuizBackend = res.data;
+      setQuiz(quiz);
+    });
+  }
+
+  const startQuiz = () => {
+    getNextBlock(quiz?.entry_id);
+  };
+
+  const onSubmit = (currentId: BlockId, nextId: BlockId, value: string | string[]) => {
+    console.log('SAVED', [currentId, value]);
+    setAnswers([...answers, [currentId, value]]);
+    getNextBlock(nextId);
   };
 
   return (
-    <Container maxWidth="sm">
-      <QuizAboutCard
-        id="1"
-        name="Aboba"
-        theme={quizTheme}
-        description={quizDescritption}
-        startCallback={addBlock}
-      />
-      {blocks.map((b) => (
-        <QuizBlockCard block={b} onSubmit={addBlock} key={b.id} />
-      ))}
-    </Container>
+    <React.Fragment>
+      <Bar>
+        <Container maxWidth="sm">
+          <QuizAboutCard
+            name={quiz?.title}
+            theme={quiz?.category}
+            description={quiz?.description}
+            startCallback={startQuiz}
+          />
+          <br />
+          {blocks.map((b, idx) => (
+            <QuizBlockCard block={b} onSubmit={onSubmit} key={idx} />
+          ))}
+        </Container>
+      </Bar>
+    </React.Fragment>
   );
 };
