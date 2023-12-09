@@ -1,15 +1,18 @@
 import { Card, CardContent, Container, Grid, Typography } from '@mui/material';
-import { RadarChart } from './RadarChart';
+import { RadarChart } from './components/RadarChart';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 import { useEffect, useState } from 'react';
 import { getUser } from '../../backend';
 import { useNavigate } from 'react-router-dom';
 import { Bar } from '../Bar';
+import { Attempt } from './components/Attempt';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
-  const [attempts, setAttempts] = useState([]);
+  const [attempts, setAttempts] = useState<
+    { max_score: number; quiz_score: number; quiz_id: number; quiz_title: string }[]
+  >([]);
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -57,48 +60,16 @@ export const ProfilePage = () => {
   return (
     <Bar>
       <Container maxWidth="lg">
-        <Typography variant="h2">{fullName}</Typography>
+        <Typography variant="h2" textAlign="center">
+          {fullName}
+        </Typography>
         <RadarChart chartData={chartData} />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>Компетенции</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>
-                  Календарь решённых сценариев
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography sx={{ fontSize: '18px', fontWeight: 500, marginBottom: '10px' }}>
-                  Решённые сценарии
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography>Сценарий 1: 10.2/12</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Сценарий 2: 10.2/12</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Сценарий 3: 10.2/12</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Сценарий 4: 10.2/12</Typography>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
+          {attempts.map((at) => (
+            <Grid item xs={12} md={6}>
+              <Attempt score={at.quiz_score} maxScore={at.max_score} title={at.quiz_title} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </Bar>

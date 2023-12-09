@@ -79,7 +79,7 @@ export const HomePage = () => {
                 свои знания о защите информации, обнаружении угроз и правилах
                 безопасного поведения в онлайне."
                 imagePath="quiz.avif"
-                onClick={() => navigate('/quizzes?complexity=0')}
+                onClick={() => navigate('/quizzes?complexity=1')}
               />
             </Grid>
             <Grid item xs={4}>
@@ -91,7 +91,7 @@ export const HomePage = () => {
                 мышления. Попробуйте свои силы, разрабатывая стратегии и находя
                 решения для реальных проблем в сфере кибербезопасности."
                 imagePath="branched.png"
-                onClick={() => navigate('/quizzes')}
+                onClick={() => navigate('/quizzes?complexity=3')}
               />
             </Grid>
             <Grid item xs={4}>
@@ -103,7 +103,7 @@ export const HomePage = () => {
                 экспертами, чтобы повысить вашу квалификацию в реальных
                 сценариях."
                 imagePath="training.avif"
-                onClick={() => navigate('/quizzes')}
+                onClick={() => navigate('/quizzes?complexity=5')}
               />
             </Grid>
           </Grid>

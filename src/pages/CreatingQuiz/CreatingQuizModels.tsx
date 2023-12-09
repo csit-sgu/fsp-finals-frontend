@@ -1,10 +1,14 @@
+import { AgeGroup, Category, Complexity } from './types';
+
 export type QuizId = string | number;
 export type QuizBlockId = string | number;
 
 export interface QuizMetadata {
   title: string;
   description: string;
-  category: 'finance' | 'personal_data' | 'devices_security' | 'web';
+  category: Category;
+  ageGroup: AgeGroup;
+  complexity: Complexity;
 }
 
 export type QuizBlockType = 'MULTIPLE_CHOICE' | 'FREE_ANSWER' | 'CASE' | '';
