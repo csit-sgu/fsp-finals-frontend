@@ -1,41 +1,56 @@
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  Box,
+  FormLabel,
+  FormControl,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+} from '@mui/material';
+import { BlockId, CasePayload } from '../QuizModels';
+import { useState, Fragment } from 'react';
 
 export interface BlockRadioProps {
   lock: boolean;
-  submitCallback: () => void;
+  payload: CasePayload;
+  onSubmit: (blockId: BlockId, value: string) => void;
 }
 
-export const BlockRadio = ({ lock, submitCallback }: BlockRadioProps) => {
+export const BlockRadio = ({ lock, payload, onSubmit }: BlockRadioProps) => {
+  const [value, setValue] = useState<string>('');
+  // TODO: don't sumbit unless at least one of answers was chosen
+  const submit = () => {
+    onSubmit(payload.options[value].next_block, value);
+  };
   return (
     <Box>
       <Card variant="outlined">
         <CardContent>
           <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="female" control={<Radio disabled={lock} />} label="Female" />
-              <FormControlLabel value="male" control={<Radio disabled={lock} />} label="Male" />
-              <FormControlLabel value="other" control={<Radio disabled={lock} />} label="Other" />
+            <FormLabel>Выберите ответ</FormLabel>
+            <RadioGroup onChange={(event) => setValue(event.target.value)}>
+              {Object.keys(payload.options).map((key, idx) => (
+                <FormControlLabel
+                  key={idx}
+                  value={key}
+                  control={<Radio disabled={lock} />}
+                  label={key}
+                />
+              ))}
             </RadioGroup>
           </FormControl>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={submitCallback}>
-            Принять
-          </Button>
+          {lock ? (
+            <Fragment />
+          ) : (
+            <Button size="small" onClick={submit}>
+              Принять
+            </Button>
+          )}
         </CardActions>
       </Card>
     </Box>
