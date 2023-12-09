@@ -4,7 +4,7 @@ export type QuizBlockId = string | number;
 export interface QuizMetadata {
   title: string;
   description: string;
-  category: string;
+  category: 'finance' | 'personal_data' | 'devices_security' | 'web';
 }
 
 export type QuizBlockType = 'MULTIPLE_CHOICE' | 'FREE_ANSWER' | 'CASE' | '';

@@ -16,9 +16,9 @@ export interface BackendQuizDto {
   title: string;
   author_username: string;
   description: string;
-  category: string;
-  complexity: number;
-  age_group: string; // TODO: Use literials in type
+  category: 'finance' | 'personal_data' | 'devices_security' | 'web';
+  complexity: 1 | 2 | 3 | 4 | 5; // complexity in (1, 2, 3, 4, 5);
+  age_group: 'child' | 'teen' | 'adult';
   blocks: BackendQuizBlock[];
 }
 
@@ -70,7 +70,7 @@ export function mapFrontendQuizToBackend(frontendDto: FrontendQuizDto): BackendQ
     author_username: frontendDto.username,
     description: frontendDto.quizMetadata.description,
     category: frontendDto.quizMetadata.category,
-    complexity: 0, // TODO: Get from dto
+    complexity: 1, // TODO: Get from dto
     age_group: 'adult', // TODO: Get from dto
     blocks: [],
   };

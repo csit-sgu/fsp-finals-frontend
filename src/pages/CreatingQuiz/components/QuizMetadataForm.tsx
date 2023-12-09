@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { QuizMetadata } from '../CreatingQuizModels';
 
 export interface QuizMetadataFormProps {
@@ -25,11 +25,29 @@ export const QuizMetadataForm = ({ value, onChange }: QuizMetadataFormProps) => 
           value={value.description}
           onChange={(e) => onChange({ ...value, description: e.target.value })}
         />
-        <TextField
-          label="Категория"
-          value={value.category}
-          onChange={(e) => onChange({ ...value, category: e.target.value })}
-        />
+        <FormControl>
+          <InputLabel id="select-category-label">Категория</InputLabel>
+          <Select
+            labelId="select-category-label"
+            value={value.category}
+            label="Категория"
+            onChange={(e) =>
+              onChange({
+                ...value,
+                category: e.target.value as
+                  | 'finance'
+                  | 'personal_data'
+                  | 'devices_security'
+                  | 'web',
+              })
+            }
+          >
+            <MenuItem value="finance">Финансы</MenuItem>
+            <MenuItem value="personal_data">Персональные данные</MenuItem>
+            <MenuItem value="devices_security">Безопасность устройств</MenuItem>
+            <MenuItem value="web">Веб-технологии</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
     </>
   );

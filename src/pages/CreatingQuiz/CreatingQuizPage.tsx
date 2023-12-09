@@ -32,7 +32,7 @@ export const CreatingQuizPage = () => {
   const [quizMetadata, setQuizMetadata] = useState<QuizMetadata>({
     title: '',
     description: '',
-    category: '',
+    category: 'devices_security',
   });
 
   const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(1)]);
