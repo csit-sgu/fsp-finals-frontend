@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { LogoutPage } from './pages/Logout/LogoutPage';
 import { QuizzesListPage } from './pages/QuizzesList/QuizzesListPage';
+import { SubscriptionsPage } from './pages/Subscriptions/SubscriptionsPage';
 
 import '@fontsource/ibm-plex-mono/300.css';
 import '@fontsource/ibm-plex-mono/400.css';
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <ProfilePage />,
+  },
+  {
+    path: '/subscriptions',
+    element: <SubscriptionsPage />,
   },
 ]);
 
