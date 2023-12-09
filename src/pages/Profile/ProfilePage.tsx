@@ -9,8 +9,8 @@ export const ProfilePage = () => {
   useEffect(() => {
     get_attempts().then((r) => {
       setAttempts(r.data);
-    })
-  }, [])
+    });
+  }, []);
 
   const chartData = {
     labels: [

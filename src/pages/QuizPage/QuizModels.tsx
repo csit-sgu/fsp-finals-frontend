@@ -83,4 +83,3 @@ export const categoryFromString = (category: string): Category | null => {
   }
   return null;
 };
-
