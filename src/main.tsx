@@ -14,6 +14,7 @@ import '@fontsource/ibm-plex-mono/300.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/ibm-plex-mono/700.css';
+import { QuizzesListPage } from './pages/QuizzesList/QuizzesListPage';
 
 const theme = createTheme({
   palette: {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: '/quizzes/:quizId',
     element: <QuizPage />,
+  },
+  {
+    path: '/quizzes',
+    element: <QuizzesListPage />,
   },
   {
     path: '/profile',

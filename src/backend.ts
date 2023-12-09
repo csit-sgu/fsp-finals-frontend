@@ -17,3 +17,14 @@ export const getQuizList = async () => {
   // TODO: add backend url
   return axios.get(`${BACKEND_URL}/quiz`);
 };
+
+export const getFilteredQuizList = async (
+  ageGroup: string | null,
+  category: string | null,
+  complexity: string | null,
+) => {
+  // TODO: add backend url
+  return axios.get(`${BACKEND_URL}/quiz`, {
+    params: { age_group: ageGroup, category, complexity },
+  });
+};
