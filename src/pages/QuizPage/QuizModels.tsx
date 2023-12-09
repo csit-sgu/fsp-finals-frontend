@@ -38,17 +38,26 @@ export interface CasePayload {
   options: { [text: string]: BranchedOption };
 }
 
+export interface ContainerPayload {
+  image_name: string;
+  image_tag: string;
+  expected_output: string;
+  ttl: number;
+  next_block: BlockId;
+}
+
 export interface Block {
   block_id: BlockId;
   block_type: BlockType;
   problem: string;
-  payload: FreeAnswerPayload | MultichoicePayload | CasePayload;
+  payload: FreeAnswerPayload | MultichoicePayload | CasePayload | ContainerPayload;
 }
 
 export enum BlockType {
   MultipleChoice,
   FreeAnswer,
   Case,
+  Container,
 }
 
 export const blockTypeFromString = (blockName: string): BlockType | null => {
@@ -59,6 +68,8 @@ export const blockTypeFromString = (blockName: string): BlockType | null => {
       return BlockType.FreeAnswer;
     case 'case':
       return BlockType.Case;
+    case 'container':
+      return BlockType.Container;
   }
   return null;
 };
