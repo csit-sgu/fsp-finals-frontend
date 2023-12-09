@@ -10,7 +10,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ProfilePage } from './pages/Profile/ProfilePage';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, purple } from '@mui/material/colors';
 
 const theme = createTheme({
@@ -23,8 +23,8 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'monospace'
-  }
+    fontFamily: 'monospace',
+  },
 });
 
 const router = createBrowserRouter([
