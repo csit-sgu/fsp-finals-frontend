@@ -14,19 +14,9 @@ export const getQuizList = async () => {
   return axios.get(`${BACKEND_URL}/quiz`);
 };
 
-export async function getUser(): Promise<{
-  username: string;
-  is_admin: boolean;
-  name: string;
-  surname: string;
-} | null> {
-  try {
-    const user = await axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
-    return user.data;
-  } catch (e) {
-    return null;
-  }
-}
+export const getUser = async () => {
+  return axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
+};
 
 export const getFilteredQuizList = async (
   ageGroup: string | null,

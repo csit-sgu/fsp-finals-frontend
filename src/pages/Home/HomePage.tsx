@@ -48,10 +48,12 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   const [quizList, setQuizList] = useState<QuizBackend[]>([]);
+  const [gotQuizList, setGotQuizList] = useState<boolean>(false);
 
-  if (quizList.length === 0) {
+  if (!gotQuizList) {
     getQuizList().then((res) => {
       setQuizList(res.data);
+      setGotQuizList(true);
     });
   }
 
@@ -180,11 +182,17 @@ export const HomePage = () => {
             columnSpacing={0}
             rowSpacing={2}
           >
-            {quizList.map((quiz, i) => (
-              <Grid item key={i} xs={12}>
-                <QuizCardHor title={quiz.title} category={quiz.category} quizId={quiz.quiz_id} />
-              </Grid>
-            ))}
+            {gotQuizList
+              ? quizList.map((quiz, i) => (
+                  <Grid item key={i} xs={12}>
+                    <QuizCardHor
+                      title={quiz.title}
+                      category={quiz.category}
+                      quizId={quiz.quiz_id}
+                    />
+                  </Grid>
+                ))
+              : []}
           </Grid>
         </Container>
       </Box>

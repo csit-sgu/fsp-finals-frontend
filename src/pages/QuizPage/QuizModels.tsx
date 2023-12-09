@@ -63,6 +63,19 @@ export const blockTypeFromString = (blockName: string): BlockType | null => {
   return null;
 };
 
+export interface Feedback {
+  block_id: BlockId;
+  correctness: number;
+  score: number;
+  feedback: string;
+}
+
+export interface BlockFeedback {
+  problem: string;
+  feedback: string;
+  score: number;
+  correctness: number;
+}
 export enum Category {
   Finance,
   PersonalData,
