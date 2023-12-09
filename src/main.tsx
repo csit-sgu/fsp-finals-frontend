@@ -6,6 +6,7 @@ import { LoginPage } from './pages/Login/LoginPage';
 import { RegisterPage } from './pages/Register/RegisterPage';
 import { QuizPage } from './pages/QuizPage/QuizPage';
 import { ProfilePage } from './pages/Profile/ProfilePage';
+import { CreatingQuizPage } from './pages/CreatingQuiz/CreatingQuizPage';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />,
+  },
+  {
+    path: '/quizzes/create',
+    element: <CreatingQuizPage />,
   },
   {
     path: '/quizzes/:quizId',
