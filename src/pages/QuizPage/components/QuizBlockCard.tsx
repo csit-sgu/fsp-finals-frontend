@@ -4,6 +4,7 @@ import {
   BlockId,
   BlockType,
   CasePayload,
+  ContainerPayload,
   FreeAnswerPayload,
   MultichoicePayload,
 } from '../QuizModels';
@@ -12,6 +13,7 @@ import { BlockDescription } from './BlockDescription';
 import { BlockRadio } from './BlockRadio';
 import { BlockTextfield } from './BlockTextfield';
 import { useState } from 'react';
+import { BlockContainerCode } from './BlockContainerCode';
 
 export interface QuizBlockCardProps {
   block: Block;
@@ -48,6 +50,16 @@ export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
         <BlockTextfield
           lock={lock}
           payload={block.payload as FreeAnswerPayload}
+          onSubmit={submit}
+        />
+      );
+      break;
+    case BlockType.Container:
+      blockCard = (
+        <BlockContainerCode
+          block_id={block.block_id}
+          lock={lock}
+          payload={block.payload as ContainerPayload}
           onSubmit={submit}
         />
       );

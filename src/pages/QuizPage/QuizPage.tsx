@@ -83,6 +83,8 @@ export const QuizPage = () => {
     const attempt = formatAttempt(quiz?.quiz_id, answers);
     getUser().then((res) => {
       attempt.username = res.data.username;
+      // TODO: remove
+      attempt.quiz_title = "title";
       console.log('ATTEMPT', attempt);
       postAttempt(attempt).then((res) => {
         console.log('SENT ATTEMPT', res.data);
