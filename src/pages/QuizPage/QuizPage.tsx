@@ -1,12 +1,28 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { Block, QuizBackend, BlockId, blockTypeFromString, QuizId } from './QuizModels';
+import {
+  Block,
+  QuizBackend,
+  BlockId,
+  blockTypeFromString,
+  QuizId,
+  Feedback,
+  BlockFeedback,
+} from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
 import { Bar } from '../Bar';
 import { useParams } from 'react-router-dom';
 import { getBlock, getQuiz, getUser, postAttempt } from '../../backend';
 import * as React from 'react';
+import { FeedbackCard } from './components/FeedbackCard';
+import { Typography } from '@mui/material';
+
+enum FeedbackState {
+  NotReady,
+  Waiting,
+  Done,
+}
 
 const formatAttempt = (quizId: QuizId, result: [BlockId, string | string[]][]) => {
   return {
@@ -21,10 +37,29 @@ const formatAttempt = (quizId: QuizId, result: [BlockId, string | string[]][]) =
   };
 };
 
+const getFeedbackList = (readyBlocks: Block[], feedbacks: Feedback[]) => {
+  const blocks: BlockFeedback[] = [];
+  readyBlocks.forEach((block) => {
+    feedbacks.forEach((feedback) => {
+      if (block.block_id === feedback.block_id) {
+        blocks.push({
+          problem: block.problem,
+          feedback: feedback.feedback,
+          score: feedback.score,
+          correctness: feedback.correctness,
+        });
+      }
+    });
+  });
+  return blocks;
+};
+
 export const QuizPage = () => {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [quiz, setQuiz] = useState<QuizBackend | null>(null);
   const [answers, setAnswers] = useState<[BlockId, string | string[]][]>([]);
+  const [feedbackState, setFeedbackState] = useState<FeedbackState>(FeedbackState.NotReady);
+  const [feedback, setFeedback] = useState<Feedback[]>([]);
   const params = useParams();
 
   const getNextBlock = (nextId: BlockId) => {
@@ -42,17 +77,20 @@ export const QuizPage = () => {
   };
 
   const sendAttempt = (answers: [BlockId, string | string[]][]) => {
-      console.log('QUIZ ENDED');
-      console.log('RESULTS', answers);
-      const attempt = formatAttempt(quiz?.quiz_id, answers);
-      getUser().then((res) => {
-        attempt.username = res.data.username;
-        console.log("ATTEMPT", attempt);
-        postAttempt(attempt).then((res) => {
-          console.log("SENT ATTEMPT", res)
-        })
-      })
-  }
+    console.log('QUIZ ENDED');
+    console.log('RESULTS', answers);
+    setFeedbackState(FeedbackState.Waiting);
+    const attempt = formatAttempt(quiz?.quiz_id, answers);
+    getUser().then((res) => {
+      attempt.username = res.data.username;
+      console.log('ATTEMPT', attempt);
+      postAttempt(attempt).then((res) => {
+        console.log('SENT ATTEMPT', res.data);
+        setFeedbackState(FeedbackState.Done);
+        setFeedback(res.data);
+      });
+    });
+  };
 
   if (quiz === null) {
     getQuiz(params.quizId).then((res) => {
@@ -76,6 +114,35 @@ export const QuizPage = () => {
     }
   };
 
+  let feedbackNode: React.ReactNode;
+  switch (feedbackState) {
+    case FeedbackState.NotReady:
+      feedbackNode = <React.Fragment />;
+      break;
+    case FeedbackState.Waiting:
+      feedbackNode = (
+        <Typography variant="h5" component="div" mb={10}>
+          Ожидание отзывов по ответам...
+        </Typography>
+      );
+      break;
+    case FeedbackState.Done:
+      feedbackNode = (
+        <React.Fragment>
+          <Typography variant="h5" component="div">
+            Отзывы:
+          </Typography>
+          {getFeedbackList(blocks, feedback).map((block, idx) => (
+            <React.Fragment key={idx}>
+              <br />
+              <FeedbackCard block_feedback={block} />
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      );
+      break;
+  }
+
   return (
     <React.Fragment>
       <Bar>
@@ -90,6 +157,7 @@ export const QuizPage = () => {
           {blocks.map((b, idx) => (
             <QuizBlockCard block={b} onSubmit={onSubmit} key={idx} />
           ))}
+          {feedbackNode}
         </Container>
       </Bar>
     </React.Fragment>
