@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../../config';
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
+import { Bar } from '../Bar';
 
 export const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
@@ -20,46 +21,53 @@ export const LoginPage = () => {
   };
 
   return (
-    <div
-      style={{
-        height: '95vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Box
-        component="form"
-        sx={{
+    <Bar>
+      <div
+        style={{
+          height: '80vh',
           display: 'flex',
-          flexDirection: 'column',
-          width: '500px',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-        onSubmit={onSubmit}
       >
-        <Typography variant="h2">Вход</Typography>
-        <TextField
-          variant="outlined"
-          label="Имя пользователя"
-          sx={{ marginBottom: '10px' }}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          label="Пароль"
-          sx={{ marginBottom: '10px' }}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button variant="contained" sx={{ marginBottom: '10px' }} type="submit" disabled={loading}>
-          Войти
-        </Button>
-        <Typography variant="body1">
-          Вы можете <Link to="/register">зарегистрироваться</Link>, если у вас нет аккаунта
-        </Typography>
-      </Box>
-    </div>
+        <Box
+          component="form"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '500px',
+          }}
+          onSubmit={onSubmit}
+        >
+          <Typography variant="h2">Вход</Typography>
+          <TextField
+            variant="outlined"
+            label="Имя пользователя"
+            sx={{ marginBottom: '10px' }}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            label="Пароль"
+            sx={{ marginBottom: '10px' }}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            sx={{ marginBottom: '10px' }}
+            type="submit"
+            disabled={loading}
+          >
+            Войти
+          </Button>
+          <Typography variant="body1">
+            Вы можете <Link to="/register">зарегистрироваться</Link>, если у вас нет аккаунта
+          </Typography>
+        </Box>
+      </div>
+    </Bar>
   );
 };
 
