@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import { Bar } from '../Bar';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { QuizBackend, QuizId } from '../QuizPage/QuizModels';
+import { getQuizList } from '../../backend';
 
 interface IQuizCard {
   title: string;
@@ -37,7 +40,13 @@ const QuizCardVert = ({ title, caption, imagePath }: IQuizCard) => {
   );
 };
 
-const QuizCardHor = () => {
+interface IQuizCardHor {
+  title: string;
+  category: string;
+  quizId: QuizId;
+}
+
+const QuizCardHor = ({ title, category, quizId }: IQuizCardHor) => {
   const navigate = useNavigate();
   return (
     <Card variant="outlined">
@@ -45,16 +54,16 @@ const QuizCardHor = () => {
         <Grid item>
           <CardContent>
             <Typography variant="h5" component="div">
-              Тема сценария
+              {title}
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Финансовые нарушения, Защита персональных данных
+              {category}
             </Typography>
           </CardContent>
         </Grid>
         <Grid item xs="auto">
           <CardActions>
-            <Button variant="contained" size="large" onClick={() => navigate('/quizzes/1')}>
+            <Button variant="contained" size="large" onClick={() => navigate(`/quizzes/${quizId}`)}>
               Открыть
             </Button>
           </CardActions>
@@ -65,6 +74,14 @@ const QuizCardHor = () => {
 };
 
 export const HomePage = () => {
+  const [quizList, setQuizList] = useState<QuizBackend[]>([]);
+
+  if (quizList.length === 0) {
+    getQuizList().then((res) => {
+      setQuizList(res.data);
+    });
+  }
+
   return (
     <Bar>
       <Box mt={12}>
@@ -183,9 +200,9 @@ export const HomePage = () => {
             columnSpacing={0}
             rowSpacing={2}
           >
-            {[...new Array(10)].map((_, i) => (
+            {quizList.map((quiz, i) => (
               <Grid item key={i} xs={12}>
-                <QuizCardHor />
+                <QuizCardHor title={quiz.title} category={quiz.category} quizId={quiz.quiz_id} />
               </Grid>
             ))}
           </Grid>
