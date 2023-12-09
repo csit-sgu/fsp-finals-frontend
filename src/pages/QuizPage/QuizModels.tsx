@@ -62,3 +62,25 @@ export const blockTypeFromString = (blockName: string): BlockType | null => {
   }
   return null;
 };
+
+export enum Category {
+  Finance,
+  PersonalData,
+  DevicesSecurity,
+  Web,
+}
+
+export const categoryFromString = (category: string): Category | null => {
+  switch (category) {
+    case 'finance':
+      return Category.Finance;
+    case 'personal_data':
+      return Category.PersonalData;
+    case 'device_security':
+      return Category.DevicesSecurity;
+    case 'web':
+      return Category.Web;
+  }
+  return null;
+};
+

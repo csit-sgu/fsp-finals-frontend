@@ -1,9 +1,38 @@
 import { Card, CardContent, Container, Grid, Typography } from '@mui/material';
+import { RadarChart } from './RadarChart';
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
+import { useEffect, useState } from 'react';
 
 export const ProfilePage = () => {
+  const [attempts, setAttempts] = useState([]);
+  useEffect(() => {
+    get_attempts().then((r) => {
+      setAttempts(r.data);
+    })
+  }, [])
+
+  const chartData = {
+    labels: [
+      'Финансовые нарушения',
+      'Защита персональных данных',
+      'Защита личных цифровых устройств',
+      'Правила работы в сети интернет',
+    ],
+    datasets: [
+      {
+        label: 'Компетенции за последний месяц',
+        data: [55, 83, 96, 46],
+        backgroundColor: ['#ff9800A0', '#ff9800A0', '#ff9800A0'],
+        borderWidth: 3,
+      },
+    ],
+  };
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h2">Иван Иванов</Typography>
+      <RadarChart chartData={chartData} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Card>
@@ -47,4 +76,8 @@ export const ProfilePage = () => {
       </Grid>
     </Container>
   );
+};
+
+const get_attempts = async () => {
+  return await axios.get(`${BACKEND_URL}/attempts`);
 };

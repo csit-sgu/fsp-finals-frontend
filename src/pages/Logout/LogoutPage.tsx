@@ -10,10 +10,8 @@ export const LogoutPage = () => {
   useEffect(() => {
     axios.get(`${BACKEND_URL}/logout`, { withCredentials: true }).then(() => {
       navigate('/');
-    })
-  })
+    });
+  });
 
-  return (
-    <Typography>Выход...</Typography>
-  )
+  return <Typography>Выход...</Typography>;
 };
