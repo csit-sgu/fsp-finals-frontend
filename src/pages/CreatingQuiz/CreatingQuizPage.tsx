@@ -7,6 +7,7 @@ import { BackendQuizDto, mapFrontendQuizToBackend } from './utils/quizMapper';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../backend';
 
 const createEmptyBlock: (id: QuizBlockId) => CreatingQuizBlock = (id) => ({
   id,
@@ -14,15 +15,6 @@ const createEmptyBlock: (id: QuizBlockId) => CreatingQuizBlock = (id) => ({
   type: '',
   payload: null,
 });
-
-async function getUser(): Promise<{ username: string; is_admin: boolean } | null> {
-  try {
-    const user = await axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
-    return user.data;
-  } catch (e) {
-    return null;
-  }
-}
 
 async function createQuiz(quiz: BackendQuizDto) {
   await axios.post(`${BACKEND_URL}/quiz`, quiz, { withCredentials: true });
