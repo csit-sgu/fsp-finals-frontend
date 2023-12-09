@@ -42,17 +42,17 @@ export const QuizPage = () => {
   };
 
   const sendAttempt = (answers: [BlockId, string | string[]][]) => {
-      console.log('QUIZ ENDED');
-      console.log('RESULTS', answers);
-      const attempt = formatAttempt(quiz?.quiz_id, answers);
-      getUser().then((res) => {
-        attempt.username = res.data.username;
-        console.log("ATTEMPT", attempt);
-        postAttempt(attempt).then((res) => {
-          console.log("SENT ATTEMPT", res)
-        })
-      })
-  }
+    console.log('QUIZ ENDED');
+    console.log('RESULTS', answers);
+    const attempt = formatAttempt(quiz?.quiz_id, answers);
+    getUser().then((res) => {
+      attempt.username = res.data.username;
+      console.log('ATTEMPT', attempt);
+      postAttempt(attempt).then((res) => {
+        console.log('SENT ATTEMPT', res);
+      });
+    });
+  };
 
   if (quiz === null) {
     getQuiz(params.quizId).then((res) => {

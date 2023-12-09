@@ -14,7 +14,6 @@ export const getQuizList = async () => {
   return axios.get(`${BACKEND_URL}/quiz`);
 };
 
-
 export async function getUser(): Promise<{
   username: string;
   is_admin: boolean;
@@ -27,6 +26,7 @@ export async function getUser(): Promise<{
   } catch (e) {
     return null;
   }
+}
 
 export const getFilteredQuizList = async (
   ageGroup: string | null,
@@ -37,9 +37,9 @@ export const getFilteredQuizList = async (
   return axios.get(`${BACKEND_URL}/quiz`, {
     params: { age_group: ageGroup, category, complexity },
   });
-}; 
+};
 
 // TODO: add explicit type
-export const postAttempt = async (attempt: any) =>  {
+export const postAttempt = async (attempt: any) => {
   return axios.post(`${BACKEND_URL}/attempt`, attempt, { withCredentials: true });
-}
+};
