@@ -15,3 +15,7 @@ npm run dev
 ```Bash
 npm run lint:fix
 ```
+
+## Architecture
+
+<img width="777" alt="image" src="https://github.com/csit-sgu/fsp-finals-backend/assets/59616661/105a23fc-4e61-4bb5-a306-3e91829ab2b6">
