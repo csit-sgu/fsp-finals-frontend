@@ -26,6 +26,8 @@ export const CreatingQuizPage = () => {
     title: '',
     description: '',
     category: 'devices_security',
+    ageGroup: 'child',
+    complexity: 1,
   });
 
   const [blocks, setBlocks] = useState<CreatingQuizBlock[]>([createEmptyBlock(1)]);
