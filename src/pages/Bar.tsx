@@ -15,8 +15,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const pages = [
-  ['Продукты', '/products'],
-  ['Блог', '/blog'],
+  ['Подписки', '/subscribe'],
+  ['Создать тест', '/quizzes/create'],
 ];
 
 const settings = [

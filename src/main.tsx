@@ -9,12 +9,13 @@ import { ProfilePage } from './pages/Profile/ProfilePage';
 import { CreatingQuizPage } from './pages/CreatingQuiz/CreatingQuizPage';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
+import { LogoutPage } from './pages/Logout/LogoutPage';
+import { QuizzesListPage } from './pages/QuizzesList/QuizzesListPage';
 
 import '@fontsource/ibm-plex-mono/300.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/ibm-plex-mono/700.css';
-import { LogoutPage } from './pages/Logout/LogoutPage';
 
 const theme = createTheme({
   palette: {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: '/quizzes/:quizId',
     element: <QuizPage />,
+  },
+  {
+    path: '/quizzes',
+    element: <QuizzesListPage />,
   },
   {
     path: '/profile',

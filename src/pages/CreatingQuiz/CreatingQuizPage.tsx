@@ -8,6 +8,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../backend';
+import { Bar } from '../Bar';
 
 const createEmptyBlock: (id: QuizBlockId) => CreatingQuizBlock = (id) => ({
   id,
@@ -85,57 +86,62 @@ export const CreatingQuizPage = () => {
   };
 
   if (!username) {
-    return <Typography variant="h2">Авторизация...</Typography>;
+    return;
+    <Bar>
+      <Typography variant="h2">Авторизация...</Typography>
+    </Bar>;
   }
 
   return (
-    <Container maxWidth="xl">
-      <Typography variant="h2">Создать квиз</Typography>
-      <div style={{ marginBottom: '10px' }}>
-        <QuizMetadataForm value={quizMetadata} onChange={setQuizMetadata} />
-      </div>
-      <Typography variant="h3">Вопросы</Typography>
-      {blocks.map((b) => (
+    <Bar>
+      <Container maxWidth="xl">
+        <Typography variant="h2">Создать квиз</Typography>
         <div style={{ marginBottom: '10px' }}>
-          <BlockItem
-            value={b}
-            onChange={changeBlock}
-            key={b.id}
-            blocks={blocks}
-            onRemove={removeBlock}
-          />
+          <QuizMetadataForm value={quizMetadata} onChange={setQuizMetadata} />
         </div>
-      ))}
-      <Button
-        variant="outlined"
-        size="large"
-        sx={{ width: '100%', marginBottom: '10px' }}
-        onClick={() => addNewBlock()}
-      >
-        Добавить вопрос
-      </Button>
-      <Button
-        variant="outlined"
-        size="large"
-        sx={{ width: '100%' }}
-        color="success"
-        disabled={creatingLoading}
-        onClick={() => {
-          setCreatingLoading(true);
-          createQuiz(
-            mapFrontendQuizToBackend({
-              quizMetadata,
-              blocks,
-              username,
-            }),
-          ).then((_) => {
-            setCreatingLoading(false);
-            alert('Квиз создан');
-          });
-        }}
-      >
-        Создать квиз
-      </Button>
-    </Container>
+        <Typography variant="h3">Вопросы</Typography>
+        {blocks.map((b) => (
+          <div style={{ marginBottom: '10px' }}>
+            <BlockItem
+              value={b}
+              onChange={changeBlock}
+              key={b.id}
+              blocks={blocks}
+              onRemove={removeBlock}
+            />
+          </div>
+        ))}
+        <Button
+          variant="outlined"
+          size="large"
+          sx={{ width: '100%', marginBottom: '10px' }}
+          onClick={() => addNewBlock()}
+        >
+          Добавить вопрос
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          sx={{ width: '100%' }}
+          color="success"
+          disabled={creatingLoading}
+          onClick={() => {
+            setCreatingLoading(true);
+            createQuiz(
+              mapFrontendQuizToBackend({
+                quizMetadata,
+                blocks,
+                username,
+              }),
+            ).then((_) => {
+              setCreatingLoading(false);
+              alert('Квиз создан');
+            });
+          }}
+        >
+          Создать квиз
+        </Button>
+      </Container>
+    </Bar>
   );
 };

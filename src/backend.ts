@@ -1,22 +1,19 @@
 import { BlockId, QuizId } from './pages/QuizPage/QuizModels';
+import { BACKEND_URL } from './config';
 import axios from 'axios';
 
-const BACKEND_URL = 'http://localhost:8000';
-
 export const getQuiz = async (id: QuizId) => {
-  // TODO: add backend url
   return axios.get(`${BACKEND_URL}/quiz/${id}`);
 };
 
 export const getBlock = async (id: BlockId) => {
-  // TODO: add backend url
   return axios.get(`${BACKEND_URL}/block/${id}`);
 };
 
 export const getQuizList = async () => {
-  // TODO: add backend url
   return axios.get(`${BACKEND_URL}/quiz`);
 };
+
 
 export async function getUser(): Promise<{
   username: string;
@@ -30,4 +27,19 @@ export async function getUser(): Promise<{
   } catch (e) {
     return null;
   }
+
+export const getFilteredQuizList = async (
+  ageGroup: string | null,
+  category: string | null,
+  complexity: string | null,
+) => {
+  // TODO: add backend url
+  return axios.get(`${BACKEND_URL}/quiz`, {
+    params: { age_group: ageGroup, category, complexity },
+  });
+}; 
+
+// TODO: add explicit type
+export const postAttempt = async (attempt: any) =>  {
+  return axios.post(`${BACKEND_URL}/attempt`, attempt, { withCredentials: true });
 }
