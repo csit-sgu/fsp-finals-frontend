@@ -1,22 +1,12 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { Block, QuizBackend, BlockId, QuizId, blockTypeFromString } from './QuizModels';
+import { Block, QuizBackend, BlockId, blockTypeFromString } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
 import { Bar } from '../Bar';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { getBlock, getQuiz } from '../../backend';
 import * as React from 'react';
-
-const getQuiz = async (id: QuizId) => {
-  // TODO: add backend url
-  return axios.get(`http://localhost:8000/quiz/${id}`);
-};
-
-const getBlock = async (id: BlockId) => {
-  // TODO: add backend url
-  return axios.get(`http://localhost:8000/block/${id}`);
-};
 
 export const QuizPage = () => {
   const [blocks, setBlocks] = useState<Block[]>([]);

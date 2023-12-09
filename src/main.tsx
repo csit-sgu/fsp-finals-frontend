@@ -5,25 +5,29 @@ import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { RegisterPage } from './pages/Register/RegisterPage';
 import { QuizPage } from './pages/QuizPage/QuizPage';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import { ProfilePage } from './pages/Profile/ProfilePage';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { green, purple } from '@mui/material/colors';
+import { orange } from '@mui/material/colors';
+
+import '@fontsource/ibm-plex-mono/300.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/700.css';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: purple[500],
+      main: orange[500],
     },
     secondary: {
-      main: green[500],
+      main: orange[500],
+    },
+    navbar: {
+      main: '#fff',
     },
   },
   typography: {
-    fontFamily: 'monospace',
+    fontFamily: 'IBM Plex Mono',
   },
 });
 
