@@ -22,12 +22,12 @@ export const ProfilePage = () => {
     });
 
     getUser().then((u) => {
-      if (u === null) {
+      if (u.data === null) {
         navigate('/login');
         return;
       }
 
-      setFullName(u?.name + ' ' + u?.surname);
+      setFullName(u?.data.name + ' ' + u?.data.surname);
       setLoading(false);
     });
   }, []);
