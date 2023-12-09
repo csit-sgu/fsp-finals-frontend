@@ -10,7 +10,9 @@ import { Attempt } from './components/Attempt';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
-  const [attempts, setAttempts] = useState([]);
+  const [attempts, setAttempts] = useState<
+    { max_score: number; quiz_score: number; quiz_id: number; quiz_title: string }[]
+  >([]);
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -63,15 +65,11 @@ export const ProfilePage = () => {
         </Typography>
         <RadarChart chartData={chartData} />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <Attempt score={11} maxScore={12} title={'Насколько ты Абоба?'} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Attempt score={11} maxScore={12} title={'Насколько ты Абоба?'} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Attempt score={11} maxScore={12} title={'Насколько ты Абоба?'} />
-          </Grid>
+          {attempts.map((at) => (
+            <Grid item xs={12} md={6}>
+              <Attempt score={at.quiz_score} maxScore={at.max_score} title={at.quiz_title} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </Bar>
