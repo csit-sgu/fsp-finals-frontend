@@ -45,31 +45,30 @@ export const Bar = ({ children }: BarProps) => {
 
   return (
     <React.Fragment>
-      <AppBar>
+      <AppBar color="navbar">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
+            <img width={30} style={{ marginRight: 10 }} src="/src/assets/orange-logo.svg" alt="" />
             <Typography
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              color="primary"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'flex' },
-                fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
                 textDecoration: 'none',
               }}
+              onClick={navigateTo('/')}
             >
-              ИМЯ
+              OrangeSEC
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
               {pages.map(([name, page]) => (
                 <Button
                   key={page}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, color: 'black', display: 'block' }}
                   onClick={navigateTo(page)}
                 >
                   {name}
