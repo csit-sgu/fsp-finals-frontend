@@ -1,4 +1,4 @@
-import { BlockId, QuizId } from './pages/QuizPage/QuizModels';
+import { BlockId, ContainerPayload, QuizId } from './pages/QuizPage/QuizModels';
 import { BACKEND_URL } from './config';
 import axios from 'axios';
 
@@ -32,4 +32,20 @@ export const getFilteredQuizList = async (
 // TODO: add explicit type
 export const postAttempt = async (attempt: any) => {
   return axios.post(`${BACKEND_URL}/attempt`, attempt, { withCredentials: true });
+};
+
+export const deployContainer = async (blockId: BlockId, payload: ContainerPayload) => {
+  return axios.post(
+    `${BACKEND_URL}/container/${blockId}`,
+    { payload: payload },
+    { withCredentials: true },
+  );
+};
+
+export const validateContainer = async (blockId: BlockId, code: string) => {
+  return axios.post(
+    `${BACKEND_URL}/container/${blockId}/validate`,
+    { answer: code },
+    { withCredentials: true },
+  );
 };

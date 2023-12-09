@@ -1,8 +1,10 @@
 import { Button, CardActions, CardContent, Card, TextField, Box, Typography } from '@mui/material';
 import { BlockId, ContainerPayload } from '../QuizModels';
 import { useState, Fragment } from 'react';
+import { deployContainer, validateContainer } from '../../../backend';
 
 interface BlockContainerCodeProps {
+  block_id: BlockId;
   lock: boolean;
   payload: ContainerPayload;
   onSubmit: (blockId: BlockId, value: string) => void;
@@ -15,7 +17,12 @@ enum CheckState {
   Correct,
 }
 
-export const BlockContainerCode = ({ lock, payload, onSubmit }: BlockContainerCodeProps) => {
+export const BlockContainerCode = ({
+  block_id,
+  lock,
+  payload,
+  onSubmit,
+}: BlockContainerCodeProps) => {
   const [localLock, setLocalLock] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [containerStarted, setContainerStarted] = useState<boolean>(false);
@@ -24,40 +31,42 @@ export const BlockContainerCode = ({ lock, payload, onSubmit }: BlockContainerCo
     onSubmit(payload.next_block, value);
   };
   const startContainer = () => {
-    setContainerStarted(true);
-    // TODO: send request to backend
+    deployContainer(block_id, payload).then((res) => {
+      setContainerStarted(true);
+    });
   };
   const checkCode = () => {
     setCheckState(CheckState.Checking);
     setLocalLock(true);
-    setTimeout(() => {
-      let result = 1;
-      if (result > 0) {
-        setCheckState(CheckState.Correct); 
+    validateContainer(block_id, value).then((res) => {
+      console.log(res);
+      if (res.data) {
+        setCheckState(CheckState.Correct);
         submit();
       } else {
+        startContainer();
         setCheckState(CheckState.Incorrect);
         setLocalLock(false);
       }
-    }, 5000);
-  }
+    });
+  };
   const onCodeChange = (event) => {
     setValue(event.target.value);
     setCheckState(CheckState.Idle);
-  }
+  };
 
   let checkStatus = <Fragment />;
   switch (checkState) {
     case CheckState.Idle:
       break;
     case CheckState.Checking:
-      checkStatus = <Typography mt={3}>Проверяем решение...</Typography>
+      checkStatus = <Typography mt={3}>Проверяем решение...</Typography>;
       break;
     case CheckState.Incorrect:
-      checkStatus = <Typography mt={3}>Решение не корректно</Typography>
+      checkStatus = <Typography mt={3}>Решение не корректно</Typography>;
       break;
     case CheckState.Correct:
-      checkStatus = <Typography mt={3}>Решение прошло проверку!</Typography>
+      checkStatus = <Typography mt={3}>Решение прошло проверку!</Typography>;
       break;
   }
 
@@ -83,7 +92,7 @@ export const BlockContainerCode = ({ lock, payload, onSubmit }: BlockContainerCo
           {checkStatus}
         </CardContent>
         <CardActions>
-          {(lock || localLock) ? (
+          {lock || localLock ? (
             <Fragment />
           ) : (
             <Button size="small" onClick={checkCode}>

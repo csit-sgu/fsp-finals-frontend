@@ -57,6 +57,7 @@ export const QuizBlockCard = ({ block, onSubmit }: QuizBlockCardProps) => {
     case BlockType.Container:
       blockCard = (
         <BlockContainerCode
+          block_id={block.block_id}
           lock={lock}
           payload={block.payload as ContainerPayload}
           onSubmit={submit}
