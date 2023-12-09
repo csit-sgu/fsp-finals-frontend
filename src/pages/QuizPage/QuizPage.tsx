@@ -1,12 +1,25 @@
 import { useState } from 'react';
 import { Container } from '@mui/system';
-import { Block, QuizBackend, BlockId, blockTypeFromString } from './QuizModels';
+import { Block, QuizBackend, BlockId, blockTypeFromString, QuizId } from './QuizModels';
 import { QuizAboutCard } from './components/QuizAboutCard';
 import { QuizBlockCard } from './components/QuizBlockCard';
 import { Bar } from '../Bar';
 import { useParams } from 'react-router-dom';
-import { getBlock, getQuiz } from '../../backend';
+import { getBlock, getQuiz, getUser, postAttempt } from '../../backend';
 import * as React from 'react';
+
+const formatAttempt = (quizId: QuizId, result: [BlockId, string | string[]][]) => {
+  return {
+    quiz_id: quizId,
+    username: null,
+    answers: result.map(([blockId, value]) => {
+      return {
+        block_id: blockId,
+        answer: value,
+      };
+    }),
+  };
+};
 
 export const QuizPage = () => {
   const [blocks, setBlocks] = useState<Block[]>([]);
@@ -25,12 +38,21 @@ export const QuizPage = () => {
         console.log(block);
         setBlocks([...blocks, block]);
       });
-    } else {
-      // TODO: send answers as attempt to backend
-      console.log('QUIZ ENDED');
-      console.log('RESULTS', answers);
     }
   };
+
+  const sendAttempt = (answers: [BlockId, string | string[]][]) => {
+      console.log('QUIZ ENDED');
+      console.log('RESULTS', answers);
+      const attempt = formatAttempt(quiz?.quiz_id, answers);
+      getUser().then((res) => {
+        attempt.username = res.data.username;
+        console.log("ATTEMPT", attempt);
+        postAttempt(attempt).then((res) => {
+          console.log("SENT ATTEMPT", res)
+        })
+      })
+  }
 
   if (quiz === null) {
     getQuiz(params.quizId).then((res) => {
@@ -45,8 +67,13 @@ export const QuizPage = () => {
 
   const onSubmit = (currentId: BlockId, nextId: BlockId, value: string | string[]) => {
     console.log('SAVED', [currentId, value]);
-    setAnswers([...answers, [currentId, value]]);
-    getNextBlock(nextId);
+    if (nextId === null) {
+      sendAttempt([...answers, [currentId, value]]);
+      setAnswers([...answers, [currentId, value]]);
+    } else {
+      setAnswers([...answers, [currentId, value]]);
+      getNextBlock(nextId);
+    }
   };
 
   return (
