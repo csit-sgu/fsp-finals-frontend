@@ -14,11 +14,11 @@ export const getQuizList = async () => {
   return axios.get(`${BACKEND_URL}/quiz`);
 };
 
-export const getUser = async () =>  {
+export const getUser = async () => {
   return axios.get(`${BACKEND_URL}/me`, { withCredentials: true });
-}
+};
 
 // TODO: add explicit type
-export const postAttempt = async (attempt: any) =>  {
+export const postAttempt = async (attempt: any) => {
   return axios.post(`${BACKEND_URL}/attempt`, attempt, { withCredentials: true });
-}
+};
